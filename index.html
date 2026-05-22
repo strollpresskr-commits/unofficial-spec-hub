@@ -585,9 +585,9 @@ function podRenderMeta(){const m=POD_META[TRADES.indexOf(podCurrent)];document.g
 function podRenderSecs(){
   const secs=POD_QS[podCurrent];
   document.getElementById('pod-secs').innerHTML=secs.map((s,si)=>`
-    <div class="pod-sec">
-      <div class="pod-sec-head"><span class="pod-sec-title">${s.sec}</span><span class="pod-sec-time">${s.time}</span></div>
-      ${s.qs.map((q,qi)=>{const k=key(podCurrent,si,qi);const done=!!podChecked[podCurrent][k];return`<div class="q-row${done?' done':''}" id="qrow_${si}_${qi}"><input type="checkbox" class="pod-cb" ${done?'checked':''} onchange="check(${si},${qi},this.checked)"><div class="q-body"><div class="pod-qtext">${q.t}</div><div class="pod-qtag"><span>${q.tag}</span></div></div></div>`;}).join('')}
+    <div class="section">
+      <div class="sec-head"><span class="sec-title">${s.sec}</span><span class="sec-time">${s.time}</span></div>
+      ${s.qs.map((q,qi)=>{const k=key(podCurrent,si,qi);const done=!!podChecked[podCurrent][k];return`<div class="q-row${done?' done':''}" id="qrow_${si}_${qi}"><input type="checkbox" class="q-cb" ${done?'checked':''} onchange="check(${si},${qi},this.checked)"><div class="q-body"><div class="q-text">${q.t}</div><div class="q-tag"><span>${q.tag}</span></div></div></div>`;}).join('')}
     </div>`).join('');
   updateProgress();
 }
