@@ -337,7 +337,7 @@ body{font-family:var(--mono);font-size:13px;background:var(--bg);color:var(--tex
 
 <script>
 
-const PANELS=['cc','bud','trip','pod','book','ds','db'];
+const PANELS=['cc','bud','trip','pod','book'];
 function goto(id){
   PANELS.forEach(p=>{
     document.getElementById('panel-'+p).classList.toggle('active',p===id);
