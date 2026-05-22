@@ -1085,7 +1085,7 @@ const DEF=[
 ];
 let state=DEF.map(t=>t.map(r=>[...r]));
 function tripRenderCards(){
-  document.getElementById('tripCards').innerHTML=T_LBLS.map((lbl,ti)=>`
+  document.getElementById('trip-cards').innerHTML=T_LBLS.map((lbl,ti)=>`
     <div class="trip-card">
       <div class="trip-head"><span class="trip-no">${lbl} 출장</span><span class="${T_LCLS[ti]}">${T_LOCS[ti]}</span></div>
       <div class="meta-grid">
@@ -1102,7 +1102,7 @@ function tripRenderCards(){
 function toggle(ti,ri,li,v){state[ti][ri][li]=v?1:0;tripRenderSum();}
 function tripRenderSum(){
   let covered=0;const uncov=[];
-  document.getElementById('sumGrid').innerHTML=`
+  document.getElementById('trip-sum').innerHTML=`
     <div class="sum-head"></div>${T_LBLS.map(l=>`<div class="sum-head">${l}</div>`).join('')}<div class="sum-head">계</div>
     ${TRADES.map((tr,ri)=>{
       let rc=0;
@@ -1117,9 +1117,9 @@ function tripRenderSum(){
       }).join('')}<div class="sum-total" style="color:${rc===3?'var(--success)':'var(--text2)'}">${rc}/3</div>`;
     }).join('')}`;
   const p=Math.round(covered/15*100);
-  document.getElementById('progFill').style.width=p+'%';
-  document.getElementById('progVal').textContent=covered+' / 15';
-  document.getElementById('uncovBox').innerHTML=uncov.length===0
+  document.getElementById('trip-prog-fill').style.width=p+'%';
+  document.getElementById('trip-prog-val').textContent=covered+' / 15';
+  document.getElementById('trip-uncov').innerHTML=uncov.length===0
     ?`<div class="allok">✓ 15개 항목 전부 커버됨</div>`
     :`<div class="uncov">미배정 ${uncov.length}개: ${uncov.join(' · ')}</div>`;
 }
@@ -1174,7 +1174,7 @@ const POD_QS={
 let podCurrent='목공';const podChecked={};TRADES.forEach(t=>{podChecked[t]={};});
 const key=(t,si,qi)=>t+'_'+si+'_'+qi;
 function podRenderTabs(){document.getElementById('pod-tabs').innerHTML=TRADES.map(t=>`<button class="tab${t===podCurrent?' active':''}" onclick="podSet('${t}')">${t}</button>`).join('')}
-function podRenderMeta(){const m=POD_META[TRADES.indexOf(podCurrent)];document.getElementById('metaRow').innerHTML=`<div class="meta-box"><div class="meta-lbl">출연자</div><div class="meta-val">${m.host}</div></div><div class="meta-box"><div class="meta-lbl">진행자</div><div class="meta-val">${m.interviewer}</div></div><div class="meta-box"><div class="meta-lbl">예상 시간</div><div class="meta-val">${m.dur}</div></div>`;}
+function podRenderMeta(){const m=POD_META[TRADES.indexOf(podCurrent)];document.getElementById('pod-meta').innerHTML=`<div class="meta-box"><div class="meta-lbl">출연자</div><div class="meta-val">${m.host}</div></div><div class="meta-box"><div class="meta-lbl">진행자</div><div class="meta-val">${m.interviewer}</div></div><div class="meta-box"><div class="meta-lbl">예상 시간</div><div class="meta-val">${m.dur}</div></div>`;}
 function podRenderSecs(){
   const secs=POD_QS[podCurrent];
   document.getElementById('pod-secs').innerHTML=secs.map((s,si)=>`
@@ -1185,7 +1185,7 @@ function podRenderSecs(){
   updateProgress();
 }
 function check(si,qi,v){const k=key(podCurrent,si,qi);podChecked[podCurrent][k]=v;const r=document.getElementById('qrow_'+si+'_'+qi);if(r)r.className='q-row'+(v?' done':'');updateProgress();}
-function updateProgress(){const secs=POD_QS[podCurrent];let total=0,done=0;secs.forEach((s,si)=>s.qs.forEach((_,qi)=>{total++;if(podChecked[podCurrent][key(podCurrent,si,qi)])done++;}));const p=total>0?Math.round(done/total*100):0;document.getElementById('progFill').style.width=p+'%';document.getElementById('progTxt').textContent=done+' / '+total+' 완료';}
+function updateProgress(){const secs=POD_QS[podCurrent];let total=0,done=0;secs.forEach((s,si)=>s.qs.forEach((_,qi)=>{total++;if(podChecked[podCurrent][key(podCurrent,si,qi)])done++;}));const p=total>0?Math.round(done/total*100):0;document.getElementById('pod-prog-fill').style.width=p+'%';document.getElementById('pod-prog-txt').textContent=done+' / '+total+' 완료';}
 function podSet(t){podCurrent=t;podRenderTabs();podRenderMeta();podRenderSecs();}
 podRenderTabs();podRenderMeta();podRenderSecs();
 
@@ -1217,14 +1217,14 @@ let bookCurrent='목공';
 function bookRenderTabs(){document.getElementById('book-tabs').innerHTML=TRADES.map(t=>`<button class="tab${t===bookCurrent?' active':''}" onclick="bookSet('${t}')">${t}</button>`).join('')}
 function bookRender(){
   const d=BOOK_DATA[bookCurrent];
-  document.getElementById('drawingArea').innerHTML=d.svg;
-  document.getElementById('drawCaption').textContent=d.drawCap;
-  document.getElementById('photoLabel').textContent=d.photoLbl;
-  document.getElementById('photoCaption').textContent=d.photoCap;
-  document.getElementById('pgLeft').textContent=d.pg[0];
-  document.getElementById('pgRight').textContent=d.pg[1];
-  document.getElementById('specText').innerHTML=d.spec.map(s=>`<div class="spec-clause"><span class="spec-no">${s.no}</span> ${s.t}<br><span style="color:#999;font-size:9px">${s.b}</span></div>`).join('');
-  document.getElementById('unofText').innerHTML=d.unoffic.map(s=>`<div class="unoffic-clause"><span class="unoffic-no">${s.no}</span> ${s.t}<br><span class="unoffic-body">${s.b}</span></div>`).join('');
+  document.getElementById('book-draw').innerHTML=d.svg;
+  document.getElementById('book-draw-cap').textContent=d.drawCap;
+  document.getElementById('book-photo-lbl').textContent=d.photoLbl;
+  document.getElementById('book-photo-cap').textContent=d.photoCap;
+  document.getElementById('book-pg-l').textContent=d.pg[0];
+  document.getElementById('book-pg-r').textContent=d.pg[1];
+  document.getElementById('book-spec').innerHTML=d.spec.map(s=>`<div class="spec-clause"><span class="spec-no">${s.no}</span> ${s.t}<br><span style="color:#999;font-size:9px">${s.b}</span></div>`).join('');
+  document.getElementById('book-unof').innerHTML=d.unoffic.map(s=>`<div class="unoffic-clause"><span class="unoffic-no">${s.no}</span> ${s.t}<br><span class="unoffic-body">${s.b}</span></div>`).join('');
 }
 function bookSet(t){bookCurrent=t;bookRenderTabs();bookRender();}
 bookRenderTabs();bookRender();
