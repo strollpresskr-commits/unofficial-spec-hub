@@ -278,6 +278,14 @@ body{font-family:var(--mono);font-size:13px;background:var(--bg);color:var(--tex
 <div class="panel" id="panel-pod">
   <div id="pod-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px"></div>
   <div id="pod-meta" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:11px"></div>
+  <div class="cam-box" style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+    <div class="cam-diagram">
+      <div class="cam-f">얼굴</div>
+      <div class="cam-sep"></div>
+      <div class="cam-w">손·작업</div>
+    </div>
+    <span class="cam-note">1/3 얼굴 + 2/3 손·작업 분할 프레임 — 촬영 전 구도 확인</span>
+  </div>
   <div id="pod-secs"></div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)">
     <div style="flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden">
@@ -475,8 +483,8 @@ const T_LBLS=['1차','2차','3차'];
 const T_MONTHS=['2026.06','2026.07','2026.09'];
 const T_LOCS=['제주','제주','서울'];
 const T_DAYS=['3박4일','2박3일','1박2일'];
-const T_DCLS=['sd1','sd2','sd3'];
-const T_LCLS=['loc-j','loc-j','loc-s'];
+const T_DCLS=['dot-1','dot-2','dot-3'];
+const T_LCLS=['loc-jeju','loc-jeju','loc-seoul'];
 const DEF=[
   [[1,1,1],[1,1,0],[0,0,0],[0,0,0],[0,0,0]],
   [[0,0,0],[0,0,1],[1,1,1],[1,1,0],[1,0,0]],
@@ -579,7 +587,7 @@ function podRenderSecs(){
   document.getElementById('pod-secs').innerHTML=secs.map((s,si)=>`
     <div class="pod-sec">
       <div class="pod-sec-head"><span class="pod-sec-title">${s.sec}</span><span class="pod-sec-time">${s.time}</span></div>
-      ${s.qs.map((q,qi)=>{const k=key(podCurrent,si,qi);const done=!!podChecked[podCurrent][k];return`<div class="q-row${done?' done':''}" id="qrow_${si}_${qi}"><input type="checkbox" class="pod-cb" ${done?'podChecked':''} onchange="check(${si},${qi},this.podChecked)"><div class="q-body"><div class="pod-qtext">${q.t}</div><div class="pod-qtag"><span>${q.tag}</span></div></div></div>`;}).join('')}
+      ${s.qs.map((q,qi)=>{const k=key(podCurrent,si,qi);const done=!!podChecked[podCurrent][k];return`<div class="q-row${done?' done':''}" id="qrow_${si}_${qi}"><input type="checkbox" class="pod-cb" ${done?'checked':''} onchange="check(${si},${qi},this.checked)"><div class="q-body"><div class="pod-qtext">${q.t}</div><div class="pod-qtag"><span>${q.tag}</span></div></div></div>`;}).join('')}
     </div>`).join('');
   updateProgress();
 }
