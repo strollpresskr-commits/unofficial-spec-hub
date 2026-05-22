@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Unofficial Spec Hub",
+  "schemaVersion": 1,
+  "description": "비공식시방서 통합 작업 허브 — 7개 패널 (조항카드·예산·출장·팟캐스트·책레이아웃·데일리현황·데일리브리핑)",
+  "mcpTools": ["mcp__236bc005-490a-422f-bbda-93dbae2919c6__create_file"]
+}
+</script>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>비공식 시방서 — 작업 허브</title>
+<style>
+
+:root{color-scheme:light;--bg:#fff;--bg2:#f5f5f4;--bg3:#eceae3;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);--text:#1a1a1a;--text2:#555;--text3:#999;--amber:#BA7517;--amber-bg:#FAEEDA;--amber-mid:#EF9F27;--success:#1D9E75;--success-bg:#E1F5EE;--danger:#E24B4A;--danger-bg:#FCEBEB;--info:#185FA5;--info-bg:#E6F1FB;--mono:'Courier New',Courier,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--mono);font-size:13px;background:var(--bg);color:var(--text);max-width:800px;margin:0 auto}
+.topbar{padding:14px 20px 0;border-bottom:1px solid var(--border2)}
+.topbar-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.project-id{font-size:10px;color:var(--text3);letter-spacing:.1em}
+.project-title{font-size:14px;font-weight:700;letter-spacing:.04em}
+.nav-row{display:flex;align-items:center;justify-content:space-between}
+.nav{display:flex;gap:0;flex-wrap:wrap}
+.nav-btn{padding:6px 12px;font-size:11px;font-family:var(--mono);letter-spacing:.06em;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.nav-btn:hover{color:var(--text2)}
+.nav-btn.active{color:var(--amber);border-bottom-color:var(--amber);font-weight:700}
+.nav-export{padding:4px 9px;font-size:10px;font-family:var(--mono);border:1px solid var(--border2);border-radius:5px;background:transparent;color:var(--text3);cursor:pointer;margin-bottom:3px;transition:all .15s;white-space:nowrap}
+.nav-export:hover{background:var(--bg2);color:var(--text2)}
+.panel{display:none;padding:20px}
+.panel.active{display:block}
+
+/* ══ CC panel CSS ══ */
+
+/* skip */
+/* skip */
+/* skip */
+#panel-cc .hdr{padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline}
+#panel-cc .doc{font-size:11px;color:var(--text3);letter-spacing:.08em}
+#panel-cc .ttl{font-size:15px;font-weight:600}
+#panel-cc .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
+#panel-cc .tab{padding:4px 12px;font-size:11px;font-family:var(--mono);letter-spacing:.06em;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;border-radius:6px;transition:all .15s}
+#panel-cc .tab.active{background:var(--warn-bg);color:var(--amber);border-color:var(--amber)}
+#panel-cc .tab:hover:not(.active){background:var(--bg2)}
+#panel-cc .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:8px}
+#panel-cc .card{border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s;background:var(--bg)}
+#panel-cc .card:hover{border-color:rgba(0,0,0,.25)}
+#panel-cc .card.open{border-color:var(--amber)}
+#panel-cc .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+#panel-cc .code{font-size:10px;color:var(--text3);letter-spacing:.1em}
+#panel-cc .chev{font-size:12px;color:var(--text3);transition:transform .2s;display:inline-block}
+#panel-cc .card.open .chev{transform:rotate(180deg);color:var(--amber)}
+#panel-cc .skill-name{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:6px}
+#panel-cc .tag-row{display:flex;gap:4px;flex-wrap:wrap}
+#panel-cc .tag{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--bg2);color:var(--text2)}
+#panel-cc .detail{overflow:hidden;max-height:0;transition:max-height .3s ease}
+#panel-cc .card.open .detail{max-height:600px}
+#panel-cc .detail-inner{border-top:1px solid var(--border);margin-top:10px;padding-top:10px}
+#panel-cc .field{display:grid;grid-template-columns:80px 1fr;gap:6px;padding:4px 0;border-bottom:1px solid var(--border)}
+#panel-cc .field:last-child{border-bottom:none}
+#panel-cc .fl{font-size:10px;color:var(--text3);letter-spacing:.06em;padding-top:2px}
+#panel-cc .fv{font-size:12px;color:var(--text);line-height:1.5}
+#panel-cc .fv.warn{color:var(--danger)}
+#panel-cc .fv.path{color:var(--amber)}
+#panel-cc .count{font-size:11px;color:var(--text3);margin-top:10px}
+
+
+/* ══ BUD panel CSS ══ */
+
+/* skip */
+/* skip */
+/* skip */
+#panel-bud .hdr{padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start}
+#panel-bud .doc{font-size:11px;color:var(--text3);letter-spacing:.08em}
+#panel-bud .ttl{font-size:15px;font-weight:600}
+#panel-bud .total-box{text-align:right}
+#panel-bud .total-label{font-size:10px;color:var(--text3);letter-spacing:.06em}
+#panel-bud .total-num{font-size:20px;font-weight:600}
+#panel-bud .total-num.over{color:var(--danger)}
+#panel-bud .total-num.ok{color:var(--success)}
+#panel-bud .delta{font-size:11px;margin-top:2px;color:var(--text2)}
+#panel-bud .row{padding:12px 0;border-bottom:1px solid var(--border)}
+#panel-bud .row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+#panel-bud .cat{font-size:12px;font-weight:600}
+#panel-bud .amt{font-size:13px;font-weight:600;min-width:100px;text-align:right}
+#panel-bud .pct{font-size:10px;color:var(--text3);min-width:38px;text-align:right}
+#panel-bud input[type=range]{width:100%;margin:4px 0;accent-color:var(--amber)}
+#panel-bud .bar-bg{height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;margin-top:4px}
+#panel-bud .bar-fill{height:100%;border-radius:2px;transition:width .2s}
+#panel-bud .note{font-size:10px;color:var(--text3);margin-top:3px}
+#panel-bud .lock-row{display:flex;align-items:center;gap:10px;padding:12px 0 0;border-top:1px solid var(--border);margin-top:4px;flex-wrap:wrap}
+#panel-bud .lock-label{font-size:11px;color:var(--text2)}
+#panel-bud .tag-s{font-size:11px;padding:2px 8px;border-radius:4px}
+#panel-bud .tag-ok{background:var(--success-bg);color:var(--success)}
+#panel-bud .tag-ov{background:var(--danger-bg);color:var(--danger)}
+#panel-bud .btn-r{font-family:var(--mono);font-size:11px;padding:3px 10px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text2);cursor:pointer;margin-left:auto}
+#panel-bud .btn-r:hover{background:var(--bg2)}
+
+
+/* ══ TRIP panel CSS ══ */
+
+/* skip */
+/* skip */
+/* skip */
+#panel-trip .hdr{padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline}
+#panel-trip .doc{font-size:11px;color:var(--text3);letter-spacing:.08em}
+#panel-trip .ttl{font-size:15px;font-weight:600}
+#panel-trip .trips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+#panel-trip .trip-card{border:1px solid var(--border);border-radius:10px;padding:12px;background:var(--bg)}
+#panel-trip .trip-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#panel-trip .trip-no{font-size:10px;letter-spacing:.1em;color:var(--text3)}
+#panel-trip .loc-jeju{background:var(--info-bg);color:var(--info);font-size:11px;padding:2px 7px;border-radius:4px;font-weight:600}
+#panel-trip .loc-seoul{background:var(--success-bg);color:var(--success);font-size:11px;padding:2px 7px;border-radius:4px;font-weight:600}
+#panel-trip .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+#panel-trip .meta-lbl{font-size:10px;color:var(--text3);margin-bottom:2px}
+#panel-trip .meta-inp{font-family:var(--mono);font-size:10px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;background:transparent;color:var(--text);width:100%}
+#panel-trip .mat-title{font-size:10px;color:var(--text3);letter-spacing:.06em;margin-bottom:6px}
+#panel-trip .matrix{display:grid;grid-template-columns:auto repeat(3,1fr);gap:3px}
+#panel-trip .mx-head{font-size:9px;color:var(--text3);text-align:center;padding:2px 0}
+#panel-trip .mx-trade{font-size:10px;color:var(--text2);display:flex;align-items:center}
+#panel-trip .mx-cell{display:flex;align-items:center;justify-content:center}
+#panel-trip .cb{width:15px;height:15px;cursor:pointer;accent-color:var(--amber)}
+#panel-trip .divider{height:1px;background:var(--border);margin:12px 0}
+#panel-trip .sum-title{font-size:11px;color:var(--text3);letter-spacing:.06em;margin-bottom:10px}
+#panel-trip .sum-grid{display:grid;grid-template-columns:auto repeat(3,1fr) auto;gap:4px;align-items:center;margin-bottom:12px}
+#panel-trip .sum-trade{font-size:11px;color:var(--text2)}
+#panel-trip .sum-cell{display:flex;align-items:center;justify-content:center;gap:2px}
+#panel-trip .dot{width:14px;height:14px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:600}
+#panel-trip .dot-1{background:var(--info-bg);color:var(--info)}
+#panel-trip .dot-2{background:var(--success-bg);color:var(--success)}
+#panel-trip .dot-3{background:var(--amber-bg);color:var(--amber)}
+#panel-trip .dot-e{width:14px;height:14px;border-radius:50%;border:1px solid var(--border)}
+#panel-trip .sum-head{font-size:9px;color:var(--text3);text-align:center}
+#panel-trip .sum-total{font-size:10px;font-weight:600;text-align:right}
+#panel-trip .prog-bar{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+#panel-trip .prog-fill{height:100%;border-radius:3px;background:var(--amber);transition:width .3s}
+#panel-trip .prog-row{display:flex;justify-content:space-between;margin-top:4px}
+#panel-trip .prog-label{font-size:10px;color:var(--text3)}
+#panel-trip .prog-val{font-size:12px;font-weight:600;color:var(--amber)}
+#panel-trip .uncov{margin-top:10px;padding:8px 10px;border:1px solid #f0c0bf;border-radius:6px;background:var(--danger-bg);font-size:11px;color:var(--danger)}
+#panel-trip .allok{margin-top:10px;padding:8px 10px;border:1px solid #9fdcc8;border-radius:6px;background:var(--success-bg);font-size:11px;color:var(--success)}
+
+
+/* ══ POD panel CSS ══ */
+
+/* skip */
+/* skip */
+/* skip */
+#panel-pod .hdr{padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline}
+#panel-pod .doc{font-size:11px;color:var(--text3);letter-spacing:.08em}
+#panel-pod .ttl{font-size:15px;font-weight:600}
+#panel-pod .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+#panel-pod .tab{padding:4px 12px;font-size:11px;font-family:var(--mono);letter-spacing:.06em;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;border-radius:6px;transition:all .15s}
+#panel-pod .tab.active{background:var(--amber-bg);color:var(--amber);border-color:var(--amber)}
+#panel-pod .tab:hover:not(.active){background:var(--bg2)}
+#panel-pod .meta-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+#panel-pod .meta-box{border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+#panel-pod .meta-lbl{font-size:10px;color:var(--text3);letter-spacing:.06em;margin-bottom:3px}
+#panel-pod .meta-val{font-size:12px;font-weight:600}
+#panel-pod .cam-box{border:1px solid var(--amber);border-radius:8px;padding:8px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;background:var(--amber-bg)}
+#panel-pod .cam-diagram{display:flex;gap:2px;align-items:center;flex-shrink:0}
+#panel-pod .cam-f{width:20px;height:26px;border:1.5px solid var(--amber);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--amber);background:#fff}
+#panel-pod .cam-w{width:40px;height:26px;border:1.5px solid var(--amber);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--amber);background:#fff}
+#panel-pod .cam-sep{width:2px;height:26px;background:var(--amber-bg)}
+#panel-pod .cam-note{font-size:11px;color:var(--amber)}
+#panel-pod .section{margin-bottom:14px}
+#panel-pod .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+#panel-pod .sec-title{font-size:11px;letter-spacing:.08em;color:var(--text2);font-weight:600}
+#panel-pod .sec-time{font-size:10px;color:var(--text3)}
+#panel-pod .q-row{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border)}
+#panel-pod .q-row:last-child{border-bottom:none}
+#panel-pod .q-cb{margin-top:2px;accent-color:var(--success);cursor:pointer;flex-shrink:0}
+#panel-pod .q-body{flex:1}
+#panel-pod .q-text{font-size:12px;color:var(--text);line-height:1.5;transition:color .15s}
+#panel-pod .q-row.done .q-text{color:var(--text3);text-decoration:line-through}
+#panel-pod .q-tag{font-size:10px;color:var(--text3);margin-top:2px}
+#panel-pod .q-tag span{padding:1px 5px;border-radius:3px;background:var(--bg2)}
+#panel-pod .prog-area{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
+#panel-pod .prog-bar{flex:1;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden}
+#panel-pod .prog-fill{height:100%;border-radius:2px;background:var(--success);transition:width .3s}
+#panel-pod .prog-txt{font-size:11px;color:var(--text3);white-space:nowrap}
+
+
+/* ══ BOOK panel CSS ══ */
+
+/* skip */
+/* skip */
+/* skip */
+#panel-book .hdr{padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline}
+#panel-book .doc{font-size:11px;color:var(--text3);letter-spacing:.08em}
+#panel-book .ttl{font-size:15px;font-weight:600}
+#panel-book .ctrl{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+#panel-book .tab{padding:4px 12px;font-size:11px;font-family:var(--mono);letter-spacing:.06em;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;border-radius:6px;transition:all .15s}
+#panel-book .tab.active{background:var(--amber-bg);color:var(--amber);border-color:var(--amber)}
+#panel-book .tab:hover:not(.active){background:var(--bg2)}
+#panel-book .label-strip{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+#panel-book .strip-lbl{font-size:9px;letter-spacing:.1em;color:var(--text3);text-align:center;padding:0 4px}
+#panel-book .strip-lbl.hl{color:var(--amber);font-weight:700}
+#panel-book .spread{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(0,0,0,.2);border-radius:8px;overflow:hidden;background:var(--bg);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#panel-book .page{padding:16px 14px;position:relative;min-height:380px}
+#panel-book .page-l{border-right:2px solid rgba(0,0,0,.15)}
+#panel-book .page-inner{display:grid;grid-template-columns:1fr 1fr;height:100%}
+#panel-book .col{padding:0 8px;border-right:1px solid var(--border)}
+#panel-book .col:last-child{border-right:none}
+#panel-book .col-head{font-size:9px;letter-spacing:.12em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:8px;text-transform:uppercase}
+#panel-book .col-head.hl{color:var(--amber);font-weight:700}
+#panel-book .drawing-area{background:var(--bg2);border:1px solid var(--border);border-radius:4px;aspect-ratio:1/1.05;display:flex;align-items:center;justify-content:center;margin-bottom:6px;overflow:hidden}
+#panel-book .photo-area{background:var(--bg2);border:1px dashed var(--border);border-radius:4px;aspect-ratio:1/1.05;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:6px;gap:4px}
+#panel-book .photo-lbl{font-size:9px;color:var(--text3);letter-spacing:.04em}
+#panel-book .caption{font-size:9px;color:var(--text3);text-align:center;margin-bottom:6px}
+#panel-book .spec-text{font-size:9.5px;line-height:1.7;color:var(--text2)}
+#panel-book .spec-no{font-weight:700;color:var(--text)}
+#panel-book .spec-clause{margin-bottom:8px}
+#panel-book .unoffic{font-size:9.5px;line-height:1.8;color:var(--text)}
+#panel-book .unoffic-no{font-weight:700;color:var(--amber)}
+#panel-book .unoffic-clause{margin-bottom:10px;border-left:2px solid var(--amber);padding-left:6px}
+#panel-book .unoffic-body{color:var(--text2);font-style:italic}
+#panel-book .pg-num{position:absolute;bottom:8px;font-size:9px;color:var(--text3);letter-spacing:.08em}
+#panel-book .pg-l{left:14px}
+#panel-book .pg-r{right:14px}
+#panel-book .legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+#panel-book .leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3)}
+#panel-book .leg-dot{width:8px;height:8px;border-radius:50%}
+
+
+/* ══ DS panel CSS ══ */
+#panel-ds,#panel-ds *{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif!important}
+#panel-ds{padding:0!important;background:#f5f4f1;color:#1c1c1e}
+
+/* skip */
+/* skip */
+/* skip */
+
+#panel-ds .ds-header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+#panel-ds .date-block .day-sub { font-size: 11px; font-weight: 600; color: #999; letter-spacing: 0.8px; }
+#panel-ds .date-block .date-main { font-size: 20px; font-weight: 700; color: #1c1c1e; margin-top: 2px; letter-spacing: -0.3px; }
+#panel-ds .snap-badge { font-size: 11px; color: #999; background: #f5f5f5; border: 1px solid #e8e8e8; border-radius: 20px; padding: 5px 12px; }
+
+#panel-ds .ds-content { max-width: 880px; margin: 0 auto; padding: 22px 20px 48px; }
+#panel-ds .section-label { font-size: 10px; font-weight: 700; color: #aaa; letter-spacing: 1px; margin-bottom: 12px; }
+
+#panel-ds .week-pulse { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+#panel-ds .pulse-stat { }
+#panel-ds .pulse-val { font-size: 22px; font-weight: 700; color: #1c1c1e; line-height: 1.1; }
+#panel-ds .pulse-val.red   { color: #c53030; }
+#panel-ds .pulse-val.amber { color: #c05621; }
+#panel-ds .pulse-val.green { color: #276749; }
+#panel-ds .pulse-lbl { font-size: 11px; color: #999; margin-top: 3px; }
+#panel-ds .pulse-divider { width: 1px; background: #f0f0f0; }
+
+#panel-ds .risk-banner { border-radius: 10px; padding: 12px 16px; margin-bottom: 22px; }
+#panel-ds .risk-banner.critical { background: #fff5f5; border: 1px solid #fecaca; }
+#panel-ds .risk-banner.warning  { background: #fffbeb; border: 1px solid #f5d769; }
+#panel-ds .risk-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+#panel-ds .risk-banner.critical .risk-label { color: #c53030; }
+#panel-ds .risk-banner.warning  .risk-label { color: #a16207; }
+#panel-ds .risk-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+#panel-ds .risk-row + .risk-row { border-top: 1px solid rgba(0,0,0,0.05); }
+#panel-ds .risk-name { font-weight: 500; }
+#panel-ds .risk-reason { font-size: 11px; color: #888; }
+#panel-ds .risk-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+#panel-ds .tag-critical { background: #fde8e8; color: #c53030; }
+#panel-ds .tag-warning  { background: #feecdc; color: #c05621; }
+#panel-ds .tag-watch    { background: #f3f4f6; color: #6b7280; }
+
+#panel-ds .urgency-card { background: #fffbeb; border: 1px solid #f5d769; border-radius: 12px; padding: 14px 18px; margin-bottom: 22px; }
+#panel-ds .urgency-label { font-size: 10px; font-weight: 700; color: #a16207; letter-spacing: 1px; margin-bottom: 10px; }
+#panel-ds .urgency-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; }
+#panel-ds .urgency-row + .urgency-row { border-top: 1px solid #fde68a; }
+#panel-ds .urgency-name { font-size: 13px; font-weight: 500; }
+#panel-ds .urgency-right { display: flex; align-items: center; gap: 8px; }
+#panel-ds .remaining-txt { font-size: 11px; color: #999; }
+#panel-ds .dday { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+#panel-ds .dday-urgent { background: #fde8e8; color: #c53030; }
+#panel-ds .dday-warn   { background: #feecdc; color: #c05621; }
+#panel-ds .dday-ok     { background: #e6fffa; color: #276749; }
+
+#panel-ds .schedule-section { margin-bottom: 4px; }
+#panel-ds .timeline-day { display: flex; gap: 14px; margin-bottom: 10px; align-items: flex-start; }
+#panel-ds .timeline-date { min-width: 52px; text-align: right; padding-top: 2px; }
+#panel-ds .timeline-date .tdate { font-size: 13px; font-weight: 700; color: #1c1c1e; }
+#panel-ds .timeline-date .tday  { font-size: 10px; color: #999; font-weight: 600; }
+#panel-ds .timeline-dot-col { display: flex; flex-direction: column; align-items: center; padding-top: 5px; }
+#panel-ds .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+#panel-ds .timeline-dot.done     { background: #276749; }
+#panel-ds .timeline-dot.upcoming { background: #e85d04; box-shadow: 0 0 0 3px #fde3d4; }
+#panel-ds .timeline-dot.thisweek { background: #185FA5; box-shadow: 0 0 0 3px #dbeafe; }
+#panel-ds .timeline-line { width: 2px; background: #e8e8e8; margin-top: 5px; min-height: 24px; flex: 1; }
+#panel-ds .timeline-body { flex: 1; padding-bottom: 4px; }
+#panel-ds .timeline-event { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 9px 14px; margin-bottom: 5px; }
+#panel-ds .timeline-event.done-ev { opacity: 0.5; }
+#panel-ds .timeline-event.thisweek-ev { border-color: #bfdbfe; background: #f0f7ff; }
+#panel-ds .timeline-event-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+#panel-ds .timeline-time  { font-size: 11px; color: #999; font-weight: 600; white-space: nowrap; }
+#panel-ds .timeline-title { font-size: 13px; font-weight: 700; color: #1c1c1e; }
+#panel-ds .timeline-desc  { font-size: 12px; color: #666; line-height: 1.5; margin-top: 2px; }
+#panel-ds .timeline-tags  { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+#panel-ds .ttag { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 600; }
+#panel-ds .ttag-shoot   { background: #dbeafe; color: #1d4ed8; }
+#panel-ds .ttag-client  { background: #f3e8ff; color: #7e22ce; }
+#panel-ds .ttag-done    { background: #d1fae5; color: #065f46; }
+#panel-ds .ttag-tbd     { background: #f3f4f6; color: #6b7280; }
+#panel-ds .ttag-prep    { background: #fff7ed; color: #c2410c; }
+#panel-ds .ttag-meeting { background: #fdf4ff; color: #7e22ce; }
+#panel-ds .ttag-thisweek { background: #dbeafe; color: #1d4ed8; }
+
+#panel-ds .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+#panel-ds .grid.wide { grid-template-columns: 1fr; }
+@media (max-width: 580px) { .grid { grid-template-columns: 1fr; } }
+#panel-ds .card { background: #fff; border-radius: 12px; padding: 16px 18px; border: 1px solid #e8e8e8; }
+#panel-ds .card.card-risk-critical { border-color: #fca5a5; }
+#panel-ds .card.card-risk-warning  { border-color: #fde68a; }
+#panel-ds .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+#panel-ds .card-name { font-size: 14px; font-weight: 600; line-height: 1.35; flex: 1; }
+#panel-ds .card-badges { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+#panel-ds .badge { font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+#panel-ds .badge-out  { background: #ebf4ff; color: #2b6cb0; }
+#panel-ds .badge-self { background: #e6fffa; color: #276749; }
+#panel-ds .badge-sys  { background: #f3f0ff; color: #553c9a; }
+#panel-ds .risk-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+#panel-ds .risk-dot.critical { background: #e53e3e; }
+#panel-ds .risk-dot.warning  { background: #e67e22; }
+#panel-ds .risk-dot.watch    { background: #a0aec0; }
+#panel-ds .risk-dot.ok       { background: #38a169; }
+#panel-ds .risk-dot.none     { background: #d0d0d0; }
+#panel-ds .prog-track { background: #f0f0f0; border-radius: 100px; height: 3px; margin-bottom: 4px; overflow: hidden; }
+#panel-ds .prog-fill { background: #1c1c1e; height: 100%; border-radius: 100px; }
+#panel-ds .prog-fill.fill-critical { background: #e53e3e; }
+#panel-ds .prog-fill.fill-warning  { background: #e67e22; }
+#panel-ds .prog-text { font-size: 10px; color: #bbb; text-align: right; margin-bottom: 10px; }
+#panel-ds .task-list { list-style: none; }
+#panel-ds .task-item { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; font-size: 12px; color: #555; border-bottom: 1px solid #f8f8f8; }
+#panel-ds .task-item:last-child { border-bottom: none; }
+#panel-ds .task-box { width: 12px; height: 12px; border: 1.5px solid #d0d0d0; border-radius: 3px; flex-shrink: 0; margin-top: 1px; }
+#panel-ds .task-item.highlight .task-box { border-color: #e85d04; }
+#panel-ds .task-item.highlight span { color: #1c1c1e; font-weight: 500; }
+#panel-ds .no-tasks { font-size: 12px; color: #bbb; text-align: center; padding: 12px 0; }
+#panel-ds .more-tasks { font-size: 11px; color: #bbb; padding: 4px 0; }
+#panel-ds .card-footer { font-size: 11px; color: #bbb; margin-top: 10px; padding-top: 8px; border-top: 1px solid #f5f5f5; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; }
+#panel-ds .budget-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+#panel-ds .budget-pending  { background: #fff7ed; color: #c05621; }
+#panel-ds .budget-invoiced { background: #e6fffa; color: #276749; }
+#panel-ds .budget-none     { background: #f5f5f5; color: #bbb; }
+
+#panel-ds .ds-footer-note { text-align: center; font-size: 11px; color: #ccc; margin-top: 16px; line-height: 1.8; }
+#panel-ds .ds-footer-note strong { color: #aaa; }
+  
+
+/* ══ DB panel CSS ══ */
+#panel-db,#panel-db *{font-family:-apple-system,"Apple SD Gothic Neo",BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+#panel-db{padding:28px 24px 40px!important;background:#f5f4f0;color:#1a1a1a}
+
+/* skip */
+/* skip */
+
+/* skip */
+    font-family: -apple-system, 'Apple SD Gothic Neo', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f4f0;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 28px 24px 40px;
+  }
+
+  /* ── HEADER ── */
+#panel-db .db-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+#panel-db .date-block .day-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+  }
+#panel-db .date-block .date-main {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.1;
+  }
+#panel-db .date-block .date-sub {
+    font-size: 13px;
+    color: #888;
+    margin-top: 3px;
+  }
+#panel-db .greeting {
+    font-size: 13px;
+    color: #999;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* ── GRID ── */
+#panel-db .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+#panel-db .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px 22px;
+    border: 1px solid #e8e6e1;
+  }
+#panel-db .card.full { grid-column: 1 / -1; }
+
+#panel-db .card-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 16px;
+  }
+
+  /* ── TIMELINE ── */
+#panel-db .timeline { display: flex; flex-direction: column; gap: 0; }
+#panel-db .tl-item {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+  }
+#panel-db .tl-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 38px;
+    top: 28px;
+    bottom: -2px;
+    width: 1px;
+    background: #ebebeb;
+  }
+#panel-db .tl-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: #bbb;
+    width: 40px;
+    flex-shrink: 0;
+    padding-top: 3px;
+    text-align: right;
+    padding-right: 10px;
+  }
+#panel-db .tl-dot {
+    width: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 5px;
+  }
+#panel-db .tl-dot span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d0ccc5;
+    display: block;
+    flex-shrink: 0;
+  }
+#panel-db .tl-dot span.accent { background: #3b82f6; }
+#panel-db .tl-dot span.green  { background: #22c55e; }
+#panel-db .tl-dot span.orange { background: #f97316; }
+#panel-db .tl-dot span.purple { background: #a855f7; }
+#panel-db .tl-body {
+    flex: 1;
+    padding: 0 0 20px 8px;
+  }
+#panel-db .tl-body .ev-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+#panel-db .tl-body .ev-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    border-radius: 6px;
+    padding: 2px 7px;
+    margin-top: 4px;
+  }
+#panel-db .tag-ai    { background: #eff6ff; color: #3b82f6; }
+#panel-db .tag-ins   { background: #f0fdf4; color: #22c55e; }
+#panel-db .tag-work  { background: #fff7ed; color: #f97316; }
+#panel-db .tag-input { background: #faf5ff; color: #a855f7; }
+#panel-db .tag-spe   { background: #fef2f2; color: #ef4444; }
+#panel-db .ev-dur {
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 2px;
+  }
+
+  /* ── WEEK AHEAD ── */
+#panel-db .week-list { display: flex; flex-direction: column; gap: 10px; }
+#panel-db .week-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #fafaf8;
+    border: 1px solid #efefed;
+  }
+#panel-db .week-date {
+    min-width: 36px;
+    text-align: center;
+  }
+#panel-db .week-date .wd { font-size: 10px; color: #bbb; font-weight: 600; }
+#panel-db .week-date .dd { font-size: 16px; font-weight: 700; color: #333; line-height: 1.1; }
+#panel-db .week-divider { width: 1px; height: 28px; background: #e5e5e5; }
+#panel-db .week-info .wi-name { font-size: 13px; font-weight: 600; color: #222; }
+#panel-db .week-info .wi-time { font-size: 11px; color: #aaa; margin-top: 2px; }
+#panel-db .week-badge {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+#panel-db .badge-red { background: #fef2f2; color: #ef4444; }
+
+  /* ── EMAIL ── */
+#panel-db .email-list { display: flex; flex-direction: column; gap: 8px; }
+#panel-db .email-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    background: #fafaf8;
+    border: 1px solid #efefed;
+  }
+#panel-db .email-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+#panel-db .email-body { flex: 1; min-width: 0; }
+#panel-db .email-subject { font-size: 12px; font-weight: 600; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#panel-db .email-from { font-size: 11px; color: #aaa; margin-top: 2px; }
+#panel-db .email-date { font-size: 10px; color: #ccc; flex-shrink: 0; align-self: center; }
+#panel-db .unread-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #3b82f6;
+    flex-shrink: 0; margin-top: 5px;
+  }
+#panel-db .read-dot { width: 6px; height: 6px; flex-shrink: 0; }
+
+  /* ── FOCUS ── */
+#panel-db .focus-box {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #fff;
+    border: none;
+  }
+#panel-db .focus-box .card-title { color: #ffffff55; }
+#panel-db .focus-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ffffff66;
+    margin-bottom: 6px;
+  }
+#panel-db .focus-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.5;
+  }
+#panel-db .focus-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+#panel-db .focus-chip {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #ffffff15;
+    color: #ffffffcc;
+    border: 1px solid #ffffff20;
+  }
+
+  /* ── PROGRESS BAR ── */
+#panel-db .day-progress { margin-bottom: 20px; }
+#panel-db .prog-label { display: flex; justify-content: space-between; font-size: 11px; color: #aaa; margin-bottom: 6px; }
+#panel-db .prog-bar { height: 4px; background: #eee; border-radius: 4px; overflow: hidden; }
+#panel-db .prog-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #a855f7); border-radius: 4px; }
+
+  /* ── ROUTINE STATUS ── */
+#panel-db .routine-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+#panel-db .routine-item {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid #efefed;
+    background: #fafaf8;
+  }
+#panel-db .ri-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #bbb; }
+#panel-db .ri-name { font-size: 13px; font-weight: 700; color: #222; margin-top: 3px; }
+#panel-db .ri-time { font-size: 11px; color: #aaa; margin-top: 2px; }
+#panel-db .ri-status { font-size: 10px; font-weight: 700; margin-top: 6px; padding: 2px 7px; border-radius: 5px; display: inline-block; }
+#panel-db .status-done { background: #f0fdf4; color: #22c55e; }
+#panel-db .status-now  { background: #eff6ff; color: #3b82f6; }
+#panel-db .status-next { background: #f5f5f4; color: #aaa; }
+
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-meta">
+    <span class="project-id">2026 아르코 건축예술랩 / 비공식 시방서 : 시공자의 건축</span>
+    <span class="project-title">UNOFFICIAL SPEC — HUB</span>
+  </div>
+  <div class="nav-row">
+    <div class="nav">
+      <button class="nav-btn active" onclick="goto('cc')">조항카드</button>
+      <button class="nav-btn" onclick="goto('bud')">예산</button>
+      <button class="nav-btn" onclick="goto('trip')">출장</button>
+      <button class="nav-btn" onclick="goto('pod')">팟캐스트</button>
+      <button class="nav-btn" onclick="goto('book')">책레이아웃</button>
+      <button class="nav-btn" onclick="goto('ds')">데일리현황</button>
+      <button class="nav-btn" onclick="goto('db')">데일리브리핑</button>
+    </div>
+    <button class="nav-export" onclick="driveExport()">☁ Drive</button>
+  </div>
+</div>
+
+<div class="panel active" id="panel-cc">
+  <div id="cc-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px"></div>
+  <div id="cc-grid"></div>
+  <div id="cc-count" style="font-size:11px;color:var(--text3);margin-top:8px"></div>
+</div>
+
+<div class="panel" id="panel-bud">
+  <div id="bud-rows"></div>
+  <div style="display:flex;align-items:center;gap:8px;padding:10px 0 0;border-top:1px solid var(--border2);flex-wrap:wrap">
+    <span style="font-size:11px;color:var(--text2)">한도</span>
+    <span style="font-size:13px;font-weight:700">₩10,000,000</span>
+    <span id="bud-status"></span>
+    <button onclick="budReset()" style="font-family:var(--mono);font-size:11px;padding:2px 8px;border:1px solid var(--border2);border-radius:5px;background:transparent;color:var(--text2);cursor:pointer;margin-left:auto">↺ 초기화</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-trip">
+  <div id="trip-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px"></div>
+  <div style="font-size:10px;color:var(--text3);letter-spacing:.06em;margin-bottom:8px">전체 커버리지 요약</div>
+  <div id="trip-sum" style="display:grid;grid-template-columns:auto repeat(3,1fr) auto;gap:4px;align-items:center;margin-bottom:10px"></div>
+  <div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden">
+    <div id="trip-prog-fill" style="height:100%;border-radius:2px;background:var(--amber);transition:width .3s;width:0%"></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:3px">
+    <span style="font-size:10px;color:var(--text3)">커버된 항목 / 전체 15개 (5공종 × 3레이어)</span>
+    <span id="trip-prog-val" style="font-size:11px;font-weight:700;color:var(--amber)">0 / 15</span>
+  </div>
+  <div id="trip-uncov"></div>
+</div>
+
+<div class="panel" id="panel-pod">
+  <div id="pod-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px"></div>
+  <div id="pod-meta" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:11px"></div>
+  <div id="pod-secs"></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)">
+    <div style="flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden">
+      <div id="pod-prog-fill" style="height:100%;border-radius:2px;background:var(--success);transition:width .3s;width:0%"></div>
+    </div>
+    <span id="pod-prog-txt" style="font-size:11px;color:var(--text3);white-space:nowrap">0 / 0 완료</span>
+  </div>
+</div>
+
+<div class="panel" id="panel-book">
+  <div id="book-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;margin-bottom:5px;border-bottom:1px solid var(--border2);padding-bottom:3px">
+    <span style="font-size:9px;letter-spacing:.09em;color:var(--text3);text-align:center">공식 도면</span>
+    <span style="font-size:9px;letter-spacing:.09em;color:var(--text3);text-align:center">공식 시방서</span>
+    <span style="font-size:9px;letter-spacing:.09em;color:var(--text3);text-align:center">현장 사진</span>
+    <span style="font-size:9px;letter-spacing:.09em;color:var(--amber);font-weight:700;text-align:center">비공식 시방서</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border2);border-radius:7px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)">
+    <div style="padding:14px 12px;position:relative;min-height:340px;border-right:2px solid rgba(0,0,0,.12)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;height:100%">
+        <div style="padding:0 7px;border-right:1px solid var(--border)">
+          <div style="font-size:8px;letter-spacing:.1em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">도면</div>
+          <div id="book-draw" style="background:var(--bg2);border:1px solid var(--border);border-radius:3px;aspect-ratio:1/1.05;display:flex;align-items:center;justify-content:center;margin-bottom:5px;overflow:hidden"></div>
+          <div id="book-draw-cap" style="font-size:8px;color:var(--text3);text-align:center;margin-bottom:5px"></div>
+        </div>
+        <div style="padding:0 7px">
+          <div style="font-size:8px;letter-spacing:.1em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">공식 시방서</div>
+          <div id="book-spec" style="font-size:9px;line-height:1.7;color:var(--text2)"></div>
+        </div>
+      </div>
+      <span id="book-pg-l" style="position:absolute;bottom:7px;left:12px;font-size:8px;color:var(--text3)"></span>
+    </div>
+    <div style="padding:14px 12px;position:relative;min-height:340px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;height:100%">
+        <div style="padding:0 7px;border-right:1px solid var(--border)">
+          <div style="font-size:8px;letter-spacing:.1em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">현장 사진</div>
+          <div style="background:var(--bg2);border:1px dashed var(--border2);border-radius:3px;aspect-ratio:1/1.05;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:5px;gap:3px">
+            <span style="font-size:20px">📷</span>
+            <span id="book-photo-lbl" style="font-size:8px;color:var(--text3)"></span>
+          </div>
+          <div id="book-photo-cap" style="font-size:8px;color:var(--text3);text-align:center;margin-bottom:5px"></div>
+        </div>
+        <div style="padding:0 7px">
+          <div style="font-size:8px;letter-spacing:.1em;color:var(--amber);font-weight:700;border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">비공식 시방서</div>
+          <div id="book-unof" style="font-size:9px;line-height:1.8;color:var(--text)"></div>
+        </div>
+      </div>
+      <span id="book-pg-r" style="position:absolute;bottom:7px;right:12px;font-size:8px;color:var(--text3)"></span>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3)"><div style="width:7px;height:7px;border-radius:50%;background:#666"></div>공식 언어 — 수치·규범·기준</div>
+    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3)"><div style="width:7px;height:7px;border-radius:50%;background:#BA7517"></div>비공식 언어 — 감각·구전·신체</div>
+  </div>
+</div>
+
+<!-- ⑥ 데일리 현황 -->
+<div class="panel" id="panel-ds">
+<div class="ds-header">
+  <div class="date-block">
+    <div class="day-sub" id="ds-day-sub"></div>
+    <div class="date-main" id="ds-date-main"></div>
+  </div>
+  <span class="snap-badge">v5 · 2026-05-18</span>
+</div>
+
+<div class="ds-content">
+  <div id="ds-week-pulse-wrap"></div>
+  <div id="ds-risk-wrap"></div>
+  <div id="ds-urgency-wrap"></div>
+  <div id="ds-main-wrap"></div>
+  <div class="ds-footer-note">
+    업데이트: Claude에게 <strong>「대시보드 업데이트해줘」</strong> 요청<br>
+    볼트 위치: iCloud › Obsidian › ObsidianVault_PALSON › 01-Projects
+  </div>
+</div>
+</div>
+
+<!-- ⑦ 데일리 브리핑 -->
+<div class="panel" id="panel-db">
+<!-- HEADER -->
+<div class="db-header">
+  <div class="date-block">
+    <div class="day-label">Daily Briefing</div>
+    <div class="date-main">2026. 05. 18</div>
+    <div class="date-sub">월요일 · 5월 셋째 주</div>
+  </div>
+  <div class="greeting">
+    Good morning, Stroll<br>
+    <span style="color:#ccc; font-size:12px;">이번 주 주목할 일정: 수요일</span>
+  </div>
+</div>
+
+<!-- DAY PROGRESS -->
+<div class="day-progress">
+  <div class="prog-label">
+    <span>하루 진행</span>
+    <span id="db-prog-pct">계산 중...</span>
+  </div>
+  <div class="prog-bar">
+    <div class="prog-fill" id="db-prog-fill" style="width: 0%"></div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- TODAY TIMELINE -->
+  <div class="card">
+    <div class="card-title">오늘 일정</div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-time">06:30</div>
+        <div class="tl-dot"><span class="accent"></span></div>
+        <div class="tl-body">
+          <div class="ev-name">오전루틴 1</div>
+          <div><span class="ev-tag tag-ai">AI</span></div>
+          <div class="ev-dur">2.5시간 · ~09:00</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">10:00</div>
+        <div class="tl-dot"><span class="green"></span></div>
+        <div class="tl-body">
+          <div class="ev-name">오전루틴 2</div>
+          <div><span class="ev-tag tag-ins">INS</span></div>
+          <div class="ev-dur">2시간 · ~12:00</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">14:00</div>
+        <div class="tl-dot"><span class="orange"></span></div>
+        <div class="tl-body">
+          <div class="ev-name">오후루틴 1</div>
+          <div><span class="ev-tag tag-work">WORK</span></div>
+          <div class="ev-dur">3시간 · ~17:00</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">19:00</div>
+        <div class="tl-dot"><span class="purple"></span></div>
+        <div class="tl-body">
+          <div class="ev-name">오후루틴 2</div>
+          <div><span class="ev-tag tag-input">INPUT</span></div>
+          <div class="ev-dur">2시간 · ~21:00</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOCUS CARD -->
+  <div class="card focus-box">
+    <div class="card-title">이번 주 포커스</div>
+    <div class="focus-label">이번 주 특이 일정</div>
+    <div class="focus-text">수요일(5/20)에<br>도청 인터뷰 + 명효님 미팅</div>
+    <div class="focus-chips">
+      <span class="focus-chip">🎤 도청 인터뷰 10:00</span>
+      <span class="focus-chip">🤝 명효님 미팅 14:00</span>
+      <span class="focus-chip">월–화 루틴 집중</span>
+    </div>
+  </div>
+
+  <!-- WEEK AHEAD -->
+  <div class="card">
+    <div class="card-title">주간 특이 일정</div>
+    <div class="week-list">
+      <div class="week-item">
+        <div class="week-date">
+          <div class="wd">수</div>
+          <div class="dd">20</div>
+        </div>
+        <div class="week-divider"></div>
+        <div class="week-info">
+          <div class="wi-name">도청 인터뷰</div>
+          <div class="wi-time">10:00 – 12:00</div>
+        </div>
+        <span class="week-badge badge-red">인터뷰</span>
+      </div>
+      <div class="week-item">
+        <div class="week-date">
+          <div class="wd">수</div>
+          <div class="dd">20</div>
+        </div>
+        <div class="week-divider"></div>
+        <div class="week-info">
+          <div class="wi-name">명효님 미팅</div>
+          <div class="wi-time">14:00 – 15:00</div>
+        </div>
+        <span class="week-badge" style="background:#f5f3ff; color:#7c3aed;">미팅</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="card">
+    <div class="card-title">받은 편지함 (최근 7일)</div>
+    <div class="email-list">
+
+      <div class="email-item">
+        <div class="unread-dot"></div>
+        <div class="email-icon">🔐</div>
+        <div class="email-body">
+          <div class="email-subject">보안 알림 — Mac 새 로그인</div>
+          <div class="email-from">accounts.google.com · 5/11</div>
+        </div>
+      </div>
+
+      <div class="email-item">
+        <div class="unread-dot"></div>
+        <div class="email-icon">🔐</div>
+        <div class="email-body">
+          <div class="email-subject">macOS Google 계정 접근 허용</div>
+          <div class="email-from">accounts.google.com · 5/11</div>
+        </div>
+      </div>
+
+      <div class="email-item">
+        <div class="read-dot"></div>
+        <div class="email-icon">📱</div>
+        <div class="email-body">
+          <div class="email-subject">iPhone Google 서비스 설정 완료</div>
+          <div class="email-from">google.com · 5/13</div>
+        </div>
+      </div>
+
+      <div class="email-item" style="opacity:0.5;">
+        <div class="read-dot"></div>
+        <div class="email-icon" style="background:#f8f8f8;">📋</div>
+        <div class="email-body">
+          <div class="email-subject" style="color:#aaa;">중요 비즈니스 메일 없음</div>
+          <div class="email-from">받은 편지함 정리됨</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ROUTINE STATUS -->
+  <div class="card full">
+    <div class="card-title">오늘 루틴 블록</div>
+    <div class="routine-grid">
+      <div class="routine-item">
+        <div class="ri-label">오전 루틴 1</div>
+        <div class="ri-name">AI 작업</div>
+        <div class="ri-time">06:30 – 09:00</div>
+        <span class="ri-status" id="db-s1">—</span>
+      </div>
+      <div class="routine-item">
+        <div class="ri-label">오전 루틴 2</div>
+        <div class="ri-name">INS 작업</div>
+        <div class="ri-time">10:00 – 12:00</div>
+        <span class="ri-status" id="db-s2">—</span>
+      </div>
+      <div class="routine-item">
+        <div class="ri-label">오후 루틴 1</div>
+        <div class="ri-name">WORK</div>
+        <div class="ri-time">14:00 – 17:00</div>
+        <span class="ri-status" id="db-s3">—</span>
+      </div>
+      <div class="routine-item">
+        <div class="ri-label">오후 루틴 2</div>
+        <div class="ri-name">INPUT</div>
+        <div class="ri-time">19:00 – 21:00</div>
+        <span class="ri-status" id="db-s4">—</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+
+const PANELS=['cc','bud','trip','pod','book','ds','db'];
+function goto(id){
+  PANELS.forEach(p=>{
+    document.getElementById('panel-'+p).classList.toggle('active',p===id);
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',PANELS[i]===id));
+}
+function driveExport(){
+  if(!window.cowork){alert('Drive 연동은 Cowork 앱에서만 사용 가능합니다.');return;}
+  const html=document.documentElement.outerHTML;
+  const blob=new Blob([html],{type:'text/html'});
+  const reader=new FileReader();
+  reader.onload=async function(){
+    try{
+      await window.cowork.callMcpTool('mcp__236bc005-490a-422f-bbda-93dbae2919c6__create_file',{
+        name:'unofficial-spec-hub-export.html',
+        content:reader.result.split(',')[1],
+        mimeType:'text/html'
+      });
+      alert('Drive에 저장됐습니다.');
+    }catch(e){alert('저장 실패: '+e.message);}
+  };
+  reader.readAsDataURL(blob);
+}
+const TRADES=['목공','도배','도장','타일','금속'];
+
+/* ══ CC ══ */
+
+const CC_DB={
+  목공:[
+    {code:"WD-001",skill:"먹줄 치기",tags:["기준선","측량"],전수경로:"현장 도제 — 선임 목수 동행 3회 이상",재료도구:"먹통, 먹실, 체크 줄자, 인주",신체프로토콜:"실을 팽팽히 당긴 뒤 중앙을 검지로 튕김. 두 사람 호흡 맞추는 것이 핵심",판단기준:"먹선 두께 0.5mm 이내, 수평 오차 ±1mm/3m",실패사례:"실 늘어짐 상태에서 튕겨 선이 곡선으로 찍힘. 전체 틀 어긋남",현재상태:"숙련 목수 보조 없이 단독 시공 가능한 인원 감소 중"},
+    {code:"WD-002",skill:"각도 맞춤 재단",tags:["45도","코너","연귀"],전수경로:"반복 실습 — 폐자재로 최소 50회 연습 후 현장 투입",재료도구:"각도절단기(마이터쏘), 각도자, 클램프",신체프로토콜:"좌우 대칭 확인 후 한 쪽 고정, 눈높이를 블레이드 선과 일치",판단기준:"코너 맞춤 시 빛 새는 틈 0mm — '빛이 안 새야 한다'",실패사례:"여름/겨울 습도 차이로 건조 후 틈 발생. 시공 당시 완벽해도 이후 벌어짐",현재상태:"연귀 마감 전담자 고령화. 숙련 기술자 1인당 연간 현장 제한"},
+    {code:"WD-003",skill:"합판 거스러미 제거",tags:["마감","면처리"],전수경로:"도구 정보 없이 구전 — '손에 익을 때까지' 반복",재료도구:"샌딩블록, 80→120→180방 순서 사포, 마스킹테이프",신체프로토콜:"결 방향 45도 비스듬히 시작, 마지막은 결 따라 직선. 압력 균일하게",판단기준:"손바닥 전체로 쓸었을 때 걸림 없음. 빛 비춰 그림자 없음",실패사례:"결 역방향 샌딩으로 미세 긁힘 발생 — 도장 후 드러남",현재상태:"도장 공종과 분리 발주 시 책임 소재 불명확한 현장 다수"},
+    {code:"WD-004",skill:"나무 뒤틀림 선별",tags:["자재","검수"],전수경로:"자재 야적장 동행 — 선임이 직접 손으로 집어가며 전수",재료도구:"없음 (눈+손)",신체프로토콜:"한 끝을 들어 눈높이 수평으로 맞추고 반대쪽 끝 처짐 방향 확인",판단기준:"2m 부재 기준 3mm 이상 휨은 반품. '서울 들어온 목재는 다 한번 더 봐야 해'",실패사례:"습도 조건 무시하고 현장 반입 즉시 시공 — 2주 후 전체 들뜸",현재상태:"자재 납품 일정 압박으로 선별 과정 생략 빈도 증가"}
+  ],
+  도배:[
+    {code:"CC_DB-001",skill:"초배 기포 제거",tags:["초배","흡착"],전수경로:"선임 도배사 1:1 현장 동행 최소 5회 — '감이 올 때까지'",재료도구:"도배솔, 주걱, 분무기, 초배지",신체프로토콜:"중심에서 대각선 45도 방향으로 솔질. 끝부분은 반드시 엄지 손가락 압력으로 마무리",판단기준:"솔로 두드렸을 때 둔탁한 소리 없음. 전등 빛 아래 기포 그림자 없음",실패사례:"급하게 여름 시공 — 건조 중 기포 수축으로 표면 주름 발생",현재상태:"초배 생략 현장 증가(비용 절감). 하자 클레임 증가 추세"},
+    {code:"CC_DB-002",skill:"무늬 맞춤 도배",tags:["무늬지","패턴"],전수경로:"숙련자 옆에서 재단 담당 보조 1년 이상",재료도구:"패턴 도배지, 재단칼, 직자, 풀솔",신체프로토콜:"창문 기준 첫 폭 기준선 설정. 패턴 반복 주기 계산 후 미리 잘라 순서 배치",판단기준:"이음매 1m 거리에서 패턴 어긋남 없음. 코너 부분 패턴 연속성 유지",실패사례:"코너에서 무늬 잘림 — 계획 단계 미스. 현장에서 수습 불가",현재상태:"무늬 도배지 수요 감소로 해당 기술 보유자 점차 줄어듦"},
+    {code:"CC_DB-003",skill:"풀 농도 조절",tags:["풀","습도"],전수경로:"구전 — '겨울엔 묽게, 여름엔 되게'. 체감으로 습득",재료도구:"도배풀, 계량컵(비공식), 나무젓가락",신체프로토콜:"젓가락 끝에 묻혀 흘러내리는 속도로 판단. '리본 끊기기 전 2초'",판단기준:"벽 적용 후 5분 이내 미끄러짐 없음. 건조 후 들뜸 없음",실패사례:"에어컨 가동 현장에서 여름 농도 적용 — 건조 너무 빨라 기포 발생",현재상태:"계량 도구 없이 경험치 의존. 신규 인력 재현 어려움"}
+  ],
+  도장:[
+    {code:"PT-001",skill:"퍼티 두께 판단",tags:["퍼티","면처리"],전수경로:"현장 동행 — 선임이 손으로 직접 눌러 보이며 설명",재료도구:"퍼티, 스테인리스 헤라(200mm), 샌딩페이퍼",신체프로토콜:"헤라를 15~20도 각도로 유지. 첫 번째 퍼티 완전 건조 후 2회 도포",판단기준:"손가락 끝으로 두드렸을 때 속 빈 소리 없음. 손톱으로 눌러도 들어가지 않음",실패사례:"두껍게 한번에 발라 건조 중 균열 — 전면 제거 후 재시공",현재상태:"2회 공정을 1회로 줄이는 현장 관행 확산. 하자 기간 이후 크랙 빈도 증가"},
+    {code:"PT-002",skill:"롤러 결 방향",tags:["롤러","마감"],전수경로:"도장 입문 첫날 교육 — 가장 먼저 배우는 기술",재료도구:"양털 롤러, 롤러 트레이, 수성페인트",신체프로토콜:"W형으로 넓게 펴고 마지막 한 방향으로 마무리. 팔 전체 움직임, 손목 사용 최소화",판단기준:"건조 후 빛 90도로 비춰 결 자국 없음. '창문 빛에서 봤을 때'",실패사례:"마무리 방향 불일치로 이음매 줄무늬 발생 — 재도장 필요",현재상태:"에어리스 스프레이 장비 보급으로 롤러 기술 전수 빈도 감소"},
+    {code:"PT-003",skill:"기온/습도별 희석비",tags:["희석","환경"],전수경로:"페인트 회사 기술사 교육 + 현장 경험 접목",재료도구:"페인트, 물, 계량컵, 온습도계",신체프로토콜:"공식 희석비에서 현장 온도 5°C 상승 시 물 5% 추가. 비 온 다음날은 무조건 미루기",판단기준:"컵에 담아 떨어뜨렸을 때 구슬 모양 유지 2초. '국물 농도'",실패사례:"영하 기온 강행 시공 — 동결 후 표면 전면 박리",현재상태:"공기 단축 압박으로 기상 조건 무시 사례 지속 보고됨"}
+  ],
+  타일:[
+    {code:"TL-001",skill:"벽체 수직 기준선",tags:["기준","레이아웃"],전수경로:"현장 도제 — 줄자+추 사용법 선임 동행 학습",재료도구:"다림추, 레이저 레벨기, 먹줄, 기준자",신체프로토콜:"바닥에서 1m 높이 기준점 2개 설정 후 연결. 레이저 레벨 없을 때 다림추로 검증",판단기준:"3m 기준자 대었을 때 틈 2mm 이하. '눈으로 보기 전에 자로 먼저'",실패사례:"육안 수직 믿다가 전체 줄눈 사선으로 어긋남 — 전면 철거",현재상태:"레이저 레벨기 보급으로 다림추 기술 전수 단절 시작"},
+    {code:"TL-002",skill:"접착제 빗살 각도",tags:["접착","떠붙임"],전수경로:"선임 시범 1회 + 즉시 실습. '몸으로 익히는 것'",재료도구:"빗살 헤라(6mm), 타일 접착제, 수평계",신체프로토콜:"헤라 60~70도 각도 유지. 빗살 줄 방향은 타일 짧은 변 방향과 직교",판단기준:"타일 뒤집었을 때 접착제 80% 이상 커버리지. '빈 공간 없어야'",실패사례:"빗살 각도 낮춰 두껍게 발랐다가 타일 높이 불균일 — 전면 재타일",현재상태:"속도 요구 증가로 접착제 커버리지 확인 단계 생략 경향"},
+    {code:"TL-003",skill:"타일 소리 검사",tags:["검수","하자"],전수경로:"완공 검수 동행으로 자연스럽게 체득. '귀로 배우는 기술'",재료도구:"고무 해머 또는 주먹 손가락 마디",신체프로토콜:"타일 중앙을 가볍게 두드림. 경로는 Z자형으로 전수 검사",판단기준:"맑은 소리 = 정상. 둔탁하거나 빈 소리 = 들뜸. '쨍하면 살고 퉁하면 죽어'",실패사례:"소리 검사 없이 준공 — 1년 후 동파 계기로 복수 타일 탈락",현재상태:"현장에서 전수 검사 시간 확보 어려워짐"}
+  ],
+  금속:[
+    {code:"MT-001",skill:"용접 전류 감각",tags:["용접","아크"],전수경로:"용접 자격증 교육 + 현장 3년 — '자격증은 입장권'",재료도구:"아크용접기, 용접봉, 가죽장갑, 차광마스크",신체프로토콜:"모재 두께×40A 기준에서 현장 조건으로 ±10A 조정. 튀는 스패터 양으로 실시간 조율",판단기준:"비드 폭 균일, 표면 매끄러움. 식힌 후 해머 타격에 이음부 파단 없음",실패사례:"전류 과다로 모재 관통 — 구조부 강도 손상",현재상태:"TIG/MIG 자동화 증가로 아크 숙련자 필요 현장 감소 중"},
+    {code:"MT-002",skill:"열변형 예측 절단",tags:["절단","열팽창"],전수경로:"현장 실패 경험 축적 — '한 번 틀려봐야 안다'",재료도구:"그라인더, 마킹펜",신체프로토콜:"절단 전 용접 예정 부위 반대쪽에 역방향 여유치수 확보. 스틸은 1m당 1mm 여유",판단기준:"조립 완료 후 대각선 치수 차이 2mm 이내. '식으면 딱 맞아야'",실패사례:"여름 직사광선 아래 절단 후 그늘 용접 — 열변형 편차로 조립 불가",현재상태:"규격 부재 사용 증가로 현장 절단 기술 전수 기회 감소"},
+    {code:"MT-003",skill:"도금면 용접 전처리",tags:["아연도금","전처리"],전수경로:"안전 사고 경험담 공유 — 현장 구전 안전 교육",재료도구:"그라인더, 아연프라이머, 방독마스크",신체프로토콜:"용접 부위 5cm 반경 도금 그라인딩 제거. 반드시 방독마스크 착용",판단기준:"도금 제거 후 모재 은색 노출 확인. 용접 흄 흰색 연기 최소화",실패사례:"도금 위 바로 용접 — 아연 흄 흡입 사고. 해당 기술자 현재 폐 이상 소견",현재상태:"안전 규정 강화에도 공기 단축 압박으로 전처리 생략 여전함"}
+  ]
+};
+let ccCurrent=TRADES[0],ccOpen=null;
+function ccRenderTabs(){document.getElementById('cc-tabs').innerHTML=TRADES.map(t=>`<button class="tab${t===ccCurrent?' active':''}" onclick="ccSet('${t}')">${t}</button>`).join('')}
+function ccRenderGrid(){
+  const cards=CC_DB[ccCurrent];
+  document.getElementById('cc-grid').innerHTML=cards.map((c,i)=>`
+    <div class="card" id="c${i}" onclick="ccToggle(${i})">
+      <div class="card-top"><span class="code">${c.code}</span><span class="chev">▾</span></div>
+      <div class="skill-name">${c.skill}</div>
+      <div class="tag-row">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="detail"><div class="detail-inner">
+        ${ccF('전수경로',c.전수경로,'path')}${ccF('재료/도구',c.재료도구)}${ccF('신체프로토콜',c.신체프로토콜)}${ccF('판단기준',c.판단기준)}${ccF('실패사례',c.실패사례,'warn')}${ccF('현재상태',c.현재상태)}
+      </div></div>
+    </div>`).join('');
+  document.getElementById('cc-count').textContent=`${cards.length}개 조항 · ${ccCurrent} 공종`;
+}
+function ccF(l,v,c=''){return `<div class="field"><span class="fl">${l}</span><span class="fv ${c}">${v}</span></div>`}
+function ccToggle(i){
+  const el=document.getElementById('cc'+i);
+  if(ccOpen!==null&&ccOpen!==i){const p=document.getElementById('cc'+ccOpen);if(p)p.classList.remove('open');}
+  el.classList.ccToggle('open');ccOpen=el.classList.contains('open')?i:null;
+}
+function ccSet(t){ccCurrent=t;ccOpen=null;ccRenderTabs();ccRenderGrid();}
+ccRenderTabs();ccRenderGrid();
+
+/* ══ BUD ══ */
+
+const BUD_BUDGET=10000000;
+const BUD_ITEMS=[
+  {label:'여비·출장',init:2100000,min:800000,max:4000000,color:'#BA7517',note:'제주↔서울 2회 기준'},
+  {label:'섭외·사례비',init:1700000,min:500000,max:3500000,color:'#185FA5',note:'시공자 인터뷰 5인'},
+  {label:'촬영·기록',init:550000,min:100000,max:1500000,color:'#1D9E75',note:'장비 소모품 포함'},
+  {label:'편집·제작',init:2900000,min:1000000,max:5000000,color:'#534AB7',note:'영상·책·전시물 제작'},
+  {label:'전시',init:2200000,min:500000,max:4000000,color:'#D85A30',note:'공간 임대·설치'},
+  {label:'운영·예비비',init:550000,min:0,max:1500000,color:'#888780',note:'행정·예비 비용'}
+];
+let budVals=BUD_ITEMS.map(i=>i.init);
+const budFmt=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
+const budPct=n=>(n/BUD_BUDGET*100).toFixed(1)+'%';
+function budRender(){
+  document.getElementById('bud-rows').innerHTML=BUD_ITEMS.map((item,i)=>`
+    <div class="bud-row">
+      <div class="bud-row-top">
+        <span class="bud-cat">${item.label}</span>
+        <span style="display:flex;gap:8px;align-items:baseline">
+          <span class="budPct" id="budPct${i}">${budPct(budVals[i])}</span>
+          <span class="amt" id="ba${i}">${budFmt(budVals[i])}</span>
+        </span>
+      </div>
+      <input type="range" min="${item.min}" max="${item.max}" step="10000" value="${budVals[i]}" oninput="budUpdate(${i},+this.value)" style="accent-color:${item.color}">
+      <div class="bud-bar-bg"><div class="bud-bar-fill" id="bb${i}" style="width:${budPct(budVals[i])};background:${item.color}"></div></div>
+      <div class="bud-note">${item.note}</div>
+    </div>`).join('');
+  budUpdateTotal();
+}
+function budUpdate(i,v){
+  budVals[i]=v;
+  document.getElementById('budPct'+i).textContent=budPct(v);
+  document.getElementById('ba'+i).textContent=budFmt(v);
+  document.getElementById('bb'+i).style.width=budPct(v);
+  budUpdateTotal();
+}
+function budUpdateTotal(){
+  const total=budVals.reduce((a,b)=>a+b,0);
+  const diff=total-BUD_BUDGET;
+  const numEl=document.getElementById('bud-total');
+  const deltaEl=document.getElementById('bud-delta');
+  const tagEl=document.getElementById('bud-status');
+  numEl.textContent=budFmt(total);
+  if(Math.abs(diff)<10000){numEl.className='total-num ok';deltaEl.textContent='± 0';tagEl.innerHTML='<span class="bud-tag ok">정확</span>';}
+  else if(diff>0){numEl.className='total-num over';deltaEl.textContent='+'+budFmt(diff)+' 초과';tagEl.innerHTML=`<span class="bud-tag ov">₩${Math.round(diff).toLocaleString('ko-KR')} 초과</span>`;}
+  else{numEl.className='total-num';deltaEl.textContent=budFmt(diff)+' 잔여';tagEl.innerHTML=`<span class="bud-tag ok">₩${Math.round(-diff).toLocaleString('ko-KR')} 남음</span>`;}
+}
+function budReset(){budVals=BUD_ITEMS.map(i=>i.init);budRender();}
+budRender();
+
+/* ══ TRIP ══ */
+
+const LAYERS=['물질','구술','도해'];
+const T_LBLS=['1차','2차','3차'];
+const T_MONTHS=['2026.06','2026.07','2026.09'];
+const T_LOCS=['제주','제주','서울'];
+const T_DAYS=['3박4일','2박3일','1박2일'];
+const T_DCLS=['sd1','sd2','sd3'];
+const T_LCLS=['loc-j','loc-j','loc-s'];
+const DEF=[
+  [[1,1,1],[1,1,0],[0,0,0],[0,0,0],[0,0,0]],
+  [[0,0,0],[0,0,1],[1,1,1],[1,1,0],[1,0,0]],
+  [[0,0,0],[0,0,0],[0,0,0],[0,0,1],[0,1,1]]
+];
+let state=DEF.map(t=>t.map(r=>[...r]));
+function tripRenderCards(){
+  document.getElementById('tripCards').innerHTML=T_LBLS.map((lbl,ti)=>`
+    <div class="trip-card">
+      <div class="trip-head"><span class="trip-no">${lbl} 출장</span><span class="${T_LCLS[ti]}">${T_LOCS[ti]}</span></div>
+      <div class="meta-grid">
+        <div><div class="meta-lbl">기간</div><input class="meta-inp" value="${T_MONTHS[ti]}"></div>
+        <div><div class="meta-lbl">일수</div><input class="meta-inp" value="${T_DAYS[ti]}"></div>
+      </div>
+      <div class="mat-title">취재 항목</div>
+      <div class="matrix">
+        <div class="mx-head"></div>${LAYERS.map(l=>`<div class="mx-head">${l}</div>`).join('')}
+        ${TRADES.map((tr,ri)=>`<div class="mx-trade">${tr}</div>${LAYERS.map((_,li)=>`<div class="mx-cell"><input type="checkbox" class="cb" ${state[ti][ri][li]?'checked':''} onchange="toggle(${ti},${ri},${li},this.checked)"></div>`).join('')}`).join('')}
+      </div>
+    </div>`).join('');
+}
+function toggle(ti,ri,li,v){state[ti][ri][li]=v?1:0;tripRenderSum();}
+function tripRenderSum(){
+  let covered=0;const uncov=[];
+  document.getElementById('sumGrid').innerHTML=`
+    <div class="sum-head"></div>${T_LBLS.map(l=>`<div class="sum-head">${l}</div>`).join('')}<div class="sum-head">계</div>
+    ${TRADES.map((tr,ri)=>{
+      let rc=0;
+      const cells=LAYERS.map((_,li)=>{
+        const trips=T_LBLS.map((_,ti)=>state[ti][ri][li]?ti+1:0).filter(Boolean);
+        if(trips.length>0){covered++;rc++;}else uncov.push(tr+' · '+LAYERS[li]);
+        return trips;
+      });
+      return `<div class="sum-trade">${tr}</div>${cells.map((trips,li)=>{
+        if(!trips.length)return`<div class="sum-cell"><div class="dot-e" title="${tr}·${LAYERS[li]} 미지정"></div></div>`;
+        return`<div class="sum-cell">${trips.map(t=>`<div class="dot ${T_DCLS[t-1]}">${t}</div>`).join('')}</div>`;
+      }).join('')}<div class="sum-total" style="color:${rc===3?'var(--success)':'var(--text2)'}">${rc}/3</div>`;
+    }).join('')}`;
+  const p=Math.round(covered/15*100);
+  document.getElementById('progFill').style.width=p+'%';
+  document.getElementById('progVal').textContent=covered+' / 15';
+  document.getElementById('uncovBox').innerHTML=uncov.length===0
+    ?`<div class="allok">✓ 15개 항목 전부 커버됨</div>`
+    :`<div class="uncov">미배정 ${uncov.length}개: ${uncov.join(' · ')}</div>`;
+}
+tripRenderCards();tripRenderSum();
+
+/* ══ POD ══ */
+
+const POD_META=[
+  {host:'도광훈',interviewer:'임유민',dur:'40-50분'},
+  {host:'이윤석',interviewer:'김태우',dur:'40-50분'},
+  {host:'시공자',interviewer:'임유민',dur:'40-50분'},
+  {host:'김태우',interviewer:'김태우',dur:'40-50분'},
+  {host:'시공자 단독',interviewer:'—',dur:'30-40분'}
+];
+const POD_QS={
+  목공:[
+    {sec:'§01 도입',time:'5분',qs:[{t:'목수가 된 계기가 뭐예요? 처음엔 어떤 일부터 했나요?',tag:'전수경로'},{t:'지금 하는 일을 한마디로 설명한다면?',tag:'공종 개요'}]},
+    {sec:'§02 기술 습득',time:'10분',qs:[{t:'이 기술을 누구한테 어떻게 배웠어요? 도제식이었나요?',tag:'전수경로'},{t:'처음 배울 때 가장 어려웠던 동작이 뭐예요?',tag:'신체프로토콜'},{t:'몇 번 해보면 몸에 익는 것 같던가요?',tag:'반복학습'}]},
+    {sec:'§03 몸의 언어',time:'12분',qs:[{t:'먹줄 칠 때 실을 튕기는 그 순간, 몸이 어떻게 움직여요? 직접 보여줄 수 있어요?',tag:'신체프로토콜'},{t:'나무 뒤틀림을 손으로 느끼는 거잖아요. 그 감각을 말로 설명하면?',tag:'촉각 판단'},{t:'도구를 잡는 방식이 사람마다 다른가요? 선생님만의 방식이 있나요?',tag:'개인화 기술'}]},
+    {sec:'§04 판단과 실패',time:'10분',qs:[{t:'잘 됐다, 잘 못됐다 어떻게 알아요? 눈으로요, 손으로요?',tag:'판단기준'},{t:'가장 기억에 남는 실수가 있어요? 그때 어떻게 수습했어요?',tag:'실패사례'},{t:'현장에서 뭔가 잘못될 것 같다는 느낌이 올 때가 있어요?',tag:'직관'}]},
+    {sec:'§05 현재와 미래',time:'8분',qs:[{t:'요즘 이 기술 배우려는 젊은 사람 있어요?',tag:'현재상태'},{t:'이 기술이 사라지면 뭐가 달라질 것 같아요?',tag:'소멸 위기'},{t:'책이나 영상으로 이걸 전달할 수 있을 것 같아요?',tag:'기록 가능성'}]}
+  ],
+  도배:[
+    {sec:'§01 도입',time:'5분',qs:[{t:'도배 일 시작하게 된 계기가 뭐예요?',tag:'전수경로'},{t:'도배사라고 하면 보통 사람들이 뭘 모른다고 생각해요?',tag:'인식 갭'}]},
+    {sec:'§02 재료와 감각',time:'10분',qs:[{t:'풀 농도 맞출 때 도구 없이 어떻게 아나요? 젓가락 쓴다고 하던데?',tag:'재료/도구'},{t:'여름이랑 겨울 작업이 다른 거잖아요. 몸으로 어떻게 느껴요?',tag:'환경 대응'},{t:'초배지 기포 뺄 때 솔질 방향이 중요하다고요?',tag:'신체프로토콜'}]},
+    {sec:'§03 공간 읽기',time:'12분',qs:[{t:'현장에 들어가면 제일 먼저 뭘 봐요?',tag:'공간 판단'},{t:'벽이 좋은 벽이다, 나쁜 벽이다 어떻게 구분해요?',tag:'판단기준'},{t:'무늬 맞춤할 때 코너에서 패턴이 잘리잖아요. 그걸 어떻게 피해요?',tag:'기술 심화'}]},
+    {sec:'§04 판단과 실패',time:'10분',qs:[{t:'붙이고 나서 잘 됐다는 거 어떻게 알아요?',tag:'판단기준'},{t:'나중에 들뜨는 경우, 시공할 때 미리 알 수 있어요?',tag:'하자 예측'},{t:'가장 힘든 현장 기억나는 것 있어요?',tag:'실패사례'}]},
+    {sec:'§05 현재와 미래',time:'8분',qs:[{t:'초배 생략하는 현장이 많아진다고요. 어떻게 생각해요?',tag:'현재상태'},{t:'도배 기술이 줄어들면 뭐가 사라지는 건가요?',tag:'소멸 위기'}]}
+  ],
+  도장:[
+    {sec:'§01 도입',time:'5분',qs:[{t:'도장 일 얼마나 됐어요? 어떻게 시작하게 됐어요?',tag:'전수경로'},{t:'페인트칠이라고 쉽게 보는 사람들한테 뭐라고 하고 싶어요?',tag:'인식 갭'}]},
+    {sec:'§02 재료와 환경',time:'12분',qs:[{t:'퍼티 두께 판단할 때 손으로 두드린다고요. 소리가 어떻게 달라요?',tag:'신체프로토콜'},{t:'기온이랑 습도에 따라 희석 비율이 달라지는 거잖아요. 그걸 어떻게 맞춰요?',tag:'재료 판단'},{t:'비 온 다음날은 절대 안 한다고요. 그 기준이 어디서 나온 거예요?',tag:'현장 규칙'}]},
+    {sec:'§03 몸의 언어',time:'10분',qs:[{t:'롤러 방향이 마지막에 통일돼야 한다는 거, 몸이 자동으로 알아요?',tag:'신체프로토콜'},{t:'창문 빛으로 마감 확인한다고요. 어떤 각도에서 봐야 해요?',tag:'판단기준'},{t:'에어리스 스프레이랑 롤러, 손의 감각이 달라요?',tag:'도구 비교'}]},
+    {sec:'§04 판단과 실패',time:'10분',qs:[{t:'퍼티 한 번에 두껍게 바르다 실패한 경험 있어요?',tag:'실패사례'},{t:'공기 단축 압박에서 기상 조건 무시하고 강행한 적 있어요?',tag:'현장 압력'},{t:'도장 하자가 나중에 드러나잖아요. 시공 단계에서 알 수 있어요?',tag:'하자 예측'}]},
+    {sec:'§05 현재와 미래',time:'8분',qs:[{t:'2회 공정을 1회로 줄이는 현장 관행, 어떻게 생각해요?',tag:'현재상태'},{t:'이 기술을 글로 쓸 수 있을 것 같아요?',tag:'기록 가능성'}]}
+  ],
+  타일:[
+    {sec:'§01 도입',time:'5분',qs:[{t:'타일 일은 어떻게 시작하게 됐어요?',tag:'전수경로'},{t:'타일 현장에서 제일 먼저 뭘 봐요?',tag:'공간 판단'}]},
+    {sec:'§02 기준선과 수직',time:'10분',qs:[{t:'레이저 레벨 없이 다림추로 수직 잡는 방법, 보여줄 수 있어요?',tag:'신체프로토콜'},{t:'눈으로 보기 전에 자로 먼저 재라고요. 왜요?',tag:'판단기준'},{t:'기준선 잘못 잡았을 때 어떻게 됐어요?',tag:'실패사례'}]},
+    {sec:'§03 접착과 소리',time:'12분',qs:[{t:'빗살 헤라 각도 60도라는 거, 몸이 자동으로 알아요?',tag:'신체프로토콜'},{t:'타일 붙이고 나서 소리로 확인하잖아요. 그 소리 차이를 지금 들려줄 수 있어요?',tag:'판단기준'},{t:'\'쨍하면 살고 퉁하면 죽어\'라는 표현, 어떻게 생긴 말이에요?',tag:'현장 언어'}]},
+    {sec:'§04 판단과 실패',time:'10분',qs:[{t:'접착제 커버리지 80% 기준, 언제 알게 됐어요?',tag:'판단기준'},{t:'전면 철거하고 재시공한 경험 있어요?',tag:'실패사례'},{t:'소리 검사 없이 준공한 현장, 나중에 어떻게 됐어요?',tag:'하자 사례'}]},
+    {sec:'§05 현재와 미래',time:'8분',qs:[{t:'레이저 레벨 보급으로 다림추 기술이 사라지고 있다고요?',tag:'현재상태'},{t:'이 소리 감각을 영상으로 전달할 수 있을 것 같아요?',tag:'기록 가능성'}]}
+  ],
+  금속:[
+    {sec:'§01 도입',time:'5분',qs:[{t:'용접을 처음 배울 때 어디서 배웠어요?',tag:'전수경로'},{t:'자격증 따고 현장 가보니까 어떻던가요?',tag:'교육 vs 현장'}]},
+    {sec:'§02 불과 전류',time:'12분',qs:[{t:'전류 세기 조절할 때 수치 말고 감각으로 어떻게 알아요?',tag:'신체프로토콜'},{t:'스패터 튀는 양을 보고 전류 조절한다고요. 어떻게 보는 거예요?',tag:'판단기준'},{t:'모재 두께×40A 공식, 현장에서 언제 깨게 됐어요?',tag:'규칙 파괴'}]},
+    {sec:'§03 열과 변형',time:'10분',qs:[{t:'열변형 예측해서 역방향 여유치수 잡는다고요. 처음엔 어떻게 배웠어요?',tag:'열팽창 판단'},{t:'\'식으면 딱 맞아야\'라는 감각, 어떻게 체득해요?',tag:'신체프로토콜'},{t:'여름 직사광선 아래 절단하고 실패한 경험, 자세히 말해줄 수 있어요?',tag:'실패사례'}]},
+    {sec:'§04 안전과 현장 언어',time:'10분',qs:[{t:'도금 위에 바로 용접하면 왜 안 돼요? 그걸 어떻게 알게 됐어요?',tag:'안전 지식'},{t:'공기 단축 압박에서 전처리 생략하는 경우, 어떻게 생각해요?',tag:'현장 압력'},{t:'현장에서 안전 얘기를 어떻게 전달해요? 교육으로요, 경험담으로요?',tag:'전수 방식'}]},
+    {sec:'§05 현재와 미래',time:'8분',qs:[{t:'자동화 용접이 늘어나는데, 손 용접이 필요한 순간이 있어요?',tag:'현재상태'},{t:'이 기술을 다음 세대한테 전달하고 싶다면 어떻게 하고 싶어요?',tag:'전수 의지'}]}
+  ]
+};
+let podCurrent='목공';const podChecked={};TRADES.forEach(t=>{podChecked[t]={};});
+const key=(t,si,qi)=>t+'_'+si+'_'+qi;
+function podRenderTabs(){document.getElementById('pod-tabs').innerHTML=TRADES.map(t=>`<button class="tab${t===podCurrent?' active':''}" onclick="podSet('${t}')">${t}</button>`).join('')}
+function podRenderMeta(){const m=POD_META[TRADES.indexOf(podCurrent)];document.getElementById('metaRow').innerHTML=`<div class="meta-box"><div class="meta-lbl">출연자</div><div class="meta-val">${m.host}</div></div><div class="meta-box"><div class="meta-lbl">진행자</div><div class="meta-val">${m.interviewer}</div></div><div class="meta-box"><div class="meta-lbl">예상 시간</div><div class="meta-val">${m.dur}</div></div>`;}
+function podRenderSecs(){
+  const secs=POD_QS[podCurrent];
+  document.getElementById('pod-secs').innerHTML=secs.map((s,si)=>`
+    <div class="pod-sec">
+      <div class="pod-sec-head"><span class="pod-sec-title">${s.sec}</span><span class="pod-sec-time">${s.time}</span></div>
+      ${s.qs.map((q,qi)=>{const k=key(podCurrent,si,qi);const done=!!podChecked[podCurrent][k];return`<div class="q-row${done?' done':''}" id="qrow_${si}_${qi}"><input type="checkbox" class="pod-cb" ${done?'podChecked':''} onchange="check(${si},${qi},this.podChecked)"><div class="q-body"><div class="pod-qtext">${q.t}</div><div class="pod-qtag"><span>${q.tag}</span></div></div></div>`;}).join('')}
+    </div>`).join('');
+  updateProgress();
+}
+function check(si,qi,v){const k=key(podCurrent,si,qi);podChecked[podCurrent][k]=v;const r=document.getElementById('qrow_'+si+'_'+qi);if(r)r.className='q-row'+(v?' done':'');updateProgress();}
+function updateProgress(){const secs=POD_QS[podCurrent];let total=0,done=0;secs.forEach((s,si)=>s.qs.forEach((_,qi)=>{total++;if(podChecked[podCurrent][key(podCurrent,si,qi)])done++;}));const p=total>0?Math.round(done/total*100):0;document.getElementById('progFill').style.width=p+'%';document.getElementById('progTxt').textContent=done+' / '+total+' 완료';}
+function podSet(t){podCurrent=t;podRenderTabs();podRenderMeta();podRenderSecs();}
+podRenderTabs();podRenderMeta();podRenderSecs();
+
+/* ══ BOOK ══ */
+
+const BOOK_DATA={
+  목공:{pg:[24,25],drawCaption:'WD-DWG-003 / 연귀 접합부 상세',photoLabel:'2026.06 제주 현장',photoCaption:'목수 손 클로즈업 — 먹줄 치는 순간',
+    spec:[{no:'3.2.1',title:'기준선 설치',body:'시공 전 레이저 레벨 또는 수준기를 사용하여 수평 기준선을 설치하고, 먹선 오차는 ±1mm/3m 이내로 한다.'},{no:'3.2.2',title:'부재 치수 허용 오차',body:'목재 부재의 치수 허용 오차는 KS F 3020에 따르며, 길이 방향 ±2mm, 폭·두께 방향 ±1mm 이내로 한다.'},{no:'3.2.3',title:'함수율 관리',body:'구조재의 함수율은 19% 이하, 수장재는 15% 이하로 하며, 현장 반입 전 검측 확인서를 제출한다.'}],
+    unoffic:[{no:'비-3.2.1',title:'먹줄 치기',body:'실을 팽팽히 당긴 뒤 중앙을 검지로 튕긴다. 두 사람 호흡이 맞지 않으면 선이 곡선으로 찍힌다. "같이 숨 쉬어야 해."'},{no:'비-3.2.2',title:'목재 뒤틀림 선별',body:'한 끝을 들어 눈높이 수평으로 맞추고 반대쪽 끝 처짐 방향을 확인한다. "서울 들어온 목재는 다 한번 더 봐야 해."'},{no:'비-3.2.3',title:'함수율 감각',body:'못을 박았을 때 소리가 다르다. 건조한 목재는 탁, 젖은 목재는 둔탁. 계측기 없이도 2년 넘으면 안다.'}],
+    svg:`<svg viewBox="0 0 100 105" width="100%" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="20" x2="90" y2="20" stroke="#999" stroke-width=".5"/><line x1="10" y1="60" x2="90" y2="60" stroke="#999" stroke-width=".5"/><rect x="20" y="20" width="60" height="40" fill="none" stroke="#333" stroke-width=".8"/><line x1="20" y1="20" x2="50" y2="60" stroke="#BA7517" stroke-width=".5"/><line x1="50" y1="20" x2="80" y2="60" stroke="#BA7517" stroke-width=".5"/><text x="50" y="15" font-size="5" fill="#999" text-anchor="middle" font-family="monospace">연귀 45°</text><text x="50" y="75" font-size="4" fill="#999" text-anchor="middle" font-family="monospace">±1mm/3m</text></svg>`},
+  도배:{pg:[48,49],drawCaption:'DB-DWG-001 / 벽체 마감 층위 단면',photoLabel:'2026.06 제주 현장',photoCaption:'도배사 — 기포 제거 솔질 동작',
+    spec:[{no:'4.1.1',title:'바탕 처리',body:'도배 시공 전 바탕면의 요철, 균열, 이물질을 제거하고 퍼티 처리하여 평활도 3mm/m 이내를 확보한다.'},{no:'4.1.2',title:'초배지 시공',body:'초배지는 이음매가 겹치지 않도록 맞댐 시공하며, 기포 및 주름이 없도록 밀착 시공한다.'},{no:'4.1.3',title:'접착제 도포',body:'접착제의 도포량은 제조사 기준에 따르며, 도포 후 오픈 타임은 외기 온도 및 습도를 고려하여 조정한다.'}],
+    unoffic:[{no:'비-4.1.1',title:'초배 기포 제거',body:'중심에서 대각선 45도 방향으로 솔질한다. 끝부분은 반드시 엄지 손가락 압력으로 마무리. 솔로 두드렸을 때 둔탁한 소리 없어야 함.'},{no:'비-4.1.2',title:'풀 농도 조절',body:'"겨울엔 묽게, 여름엔 되게." 젓가락 끝에 묻혀 흘러내리는 속도로 판단. \'리본 끊기기 전 2초\'가 기준.'},{no:'비-4.1.3',title:'에어컨 현장 주의',body:'에어컨 가동 현장은 여름이어도 겨울 농도에 가깝게. "기계 바람은 자연 바람이 아니야."'}],
+    svg:`<svg viewBox="0 0 100 105" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="80" height="90" fill="none" stroke="#333" stroke-width=".8"/><rect x="10" y="10" width="80" height="12" fill="#f0f0ee" stroke="#999" stroke-width=".5"/><rect x="10" y="22" width="80" height="12" fill="none" stroke="#999" stroke-width=".5"/><rect x="10" y="34" width="80" height="66" fill="none" stroke="#999" stroke-width=".5"/><text x="50" y="18" font-size="4" fill="#999" text-anchor="middle" font-family="monospace">마감재</text><text x="50" y="30" font-size="4" fill="#999" text-anchor="middle" font-family="monospace">초배지</text><text x="50" y="68" font-size="4" fill="#999" text-anchor="middle" font-family="monospace">바탕면</text></svg>`},
+  도장:{pg:[62,63],drawCaption:'PT-DWG-002 / 도장 공정 층위도',photoLabel:'2026.07 제주 현장',photoCaption:'도장공 — 롤러 방향 마감 동작',
+    spec:[{no:'5.3.1',title:'퍼티 시공',body:'바탕 퍼티는 2회 이상 도포하여 표면 요철을 제거하며, 각 회 도포 후 완전 건조 후 샌딩하여 평활도를 확보한다.'},{no:'5.3.2',title:'도료 희석',body:'도료의 희석율은 제조사 시방에 따르며, 시공 당일의 온도·습도 조건을 고려한다. 기온 5°C 미만, 상대습도 85% 초과 시 시공을 금한다.'},{no:'5.3.3',title:'도장 횟수',body:'외부 노출면은 하도 1회, 중도 1회, 상도 2회 이상 도장하며, 각 회 도막 두께는 설계도서에 따른다.'}],
+    unoffic:[{no:'비-5.3.1',title:'퍼티 두께 판단',body:'헤라를 15–20도 각도로 유지한다. 건조 후 손가락으로 두드렸을 때 속 빈 소리 없어야 함. 두껍게 한번에 바르면 건조 중 반드시 균열.'},{no:'비-5.3.2',title:'희석 감각',body:'컵에 담아 떨어뜨렸을 때 구슬 모양 유지 2초. "국물 농도." 비 온 다음날은 무조건 미루기.'},{no:'비-5.3.3',title:'롤러 결 방향',body:'W형으로 넓게 펴고 마지막 한 방향으로 마무리. "창문 빛에서 봤을 때 티 안 나면 된 거야."'}],
+    svg:`<svg viewBox="0 0 100 105" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="10" width="70" height="8" fill="#FAEEDA" stroke="#BA7517" stroke-width=".5"/><rect x="15" y="18" width="70" height="6" fill="#f0f0ee" stroke="#999" stroke-width=".5"/><rect x="15" y="24" width="70" height="6" fill="#f0f0ee" stroke="#999" stroke-width=".5"/><rect x="15" y="30" width="70" height="10" fill="none" stroke="#999" stroke-width=".5"/><rect x="15" y="40" width="70" height="55" fill="none" stroke="#333" stroke-width=".8"/><text x="50" y="15" font-size="4" fill="#BA7517" text-anchor="middle" font-family="monospace">상도 2회</text><text x="50" y="22" font-size="3.5" fill="#999" text-anchor="middle" font-family="monospace">중도</text><text x="50" y="28" font-size="3.5" fill="#999" text-anchor="middle" font-family="monospace">하도</text><text x="50" y="36" font-size="3.5" fill="#999" text-anchor="middle" font-family="monospace">퍼티</text></svg>`},
+  타일:{pg:[76,77],drawCaption:'TL-DWG-001 / 벽타일 줄눈 배열 기준',photoLabel:'2026.06 제주 현장',photoCaption:'타일공 — 고무 해머 소리 검사',
+    spec:[{no:'6.2.1',title:'기준선 설치',body:'타일 시공 전 레이저 레벨기를 사용하여 수직·수평 기준선을 설치하고, 수직도 허용 오차는 2mm/3m 이내로 한다.'},{no:'6.2.2',title:'접착제 도포',body:'타일 접착제는 빗살 헤라를 사용하여 균일하게 도포하며, 타일 밀착 후 접착면적은 타일 뒷면의 80% 이상을 확보한다.'},{no:'6.2.3',title:'시공 후 검사',body:'시공 완료 후 고무 해머를 사용한 타음 검사를 실시하여 공동부(空洞部)가 없음을 확인한다.'}],
+    unoffic:[{no:'비-6.2.1',title:'수직 기준 잡기',body:'"눈으로 보기 전에 자로 먼저." 레이저 레벨 없을 때는 다림추. 육안 믿다가 전체 줄눈 사선으로 간 현장 있음.'},{no:'비-6.2.2',title:'빗살 각도 체감',body:'헤라 60–70도 — 처음엔 각도기로, 나중엔 팔꿈치 감각으로. "빈 데 있으면 언젠가 소리 난다."'},{no:'비-6.2.3',title:'소리로 아는 것',body:'"쨍하면 살고 퉁하면 죽어." 맑은 소리 = 정상, 둔탁하거나 빈 소리 = 들뜸. 이 소리는 몸으로 기억한다.'}],
+    svg:`<svg viewBox="0 0 100 105" width="100%" xmlns="http://www.w3.org/2000/svg">${[0,1,2,3].map(r=>[0,1,2,3].map(c=>`<rect x="${15+c*18}" y="${10+r*18}" width="16" height="16" fill="none" stroke="#aaa" stroke-width=".5"/>`).join('')).join('')}<line x1="10" y1="10" x2="10" y2="82" stroke="#BA7517" stroke-width="1"/><line x1="8" y1="10" x2="12" y2="10" stroke="#BA7517" stroke-width=".8"/><line x1="8" y1="82" x2="12" y2="82" stroke="#BA7517" stroke-width=".8"/><text x="50" y="98" font-size="4" fill="#999" text-anchor="middle" font-family="monospace">줄눈 3mm</text></svg>`},
+  금속:{pg:[90,91],drawCaption:'MT-DWG-003 / 용접 접합부 단면 상세',photoLabel:'2026.07 서울 현장',photoCaption:'용접공 — 아크 용접 작업 클로즈업',
+    spec:[{no:'7.4.1',title:'용접 전처리',body:'용접 부위의 도금, 도장, 이물질을 그라인더로 제거하고 용접 모재 표면을 청결히 유지한다.'},{no:'7.4.2',title:'용접 전류·전압',body:'용접 전류 및 전압은 모재 두께와 용접봉 규격에 따라 설정하며, 과전류에 의한 모재 관통을 방지한다.'},{no:'7.4.3',title:'열변형 관리',body:'용접 열에 의한 변형을 최소화하기 위해 역변형 처리를 실시하고, 용접 순서를 계획하여 편심 수축을 방지한다.'}],
+    unoffic:[{no:'비-7.4.1',title:'도금면 전처리',body:'용접 부위 5cm 반경 도금 그라인딩 제거. 반드시 방독마스크. "자격증은 입장권이야. 진짜는 현장에서 배워."'},{no:'비-7.4.2',title:'전류 감각',body:'"모재 두께×40A가 교과서, 튀는 스패터가 현장." 전류 과다면 모재가 관통된다 — 그 소리가 다르다.'},{no:'비-7.4.3',title:'열변형 예측',body:'"식으면 딱 맞아야." 절단 전 역방향 여유치수 확보 — 스틸 1m당 1mm.'}],
+    svg:`<svg viewBox="0 0 100 105" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="28" width="70" height="12" fill="#f0f0ee" stroke="#333" stroke-width=".8"/><rect x="15" y="58" width="70" height="12" fill="#f0f0ee" stroke="#333" stroke-width=".8"/><polygon points="35,40 65,40 60,58 40,58" fill="#FAEEDA" stroke="#BA7517" stroke-width=".5"/><text x="50" y="52" font-size="5" fill="#BA7517" text-anchor="middle" font-family="monospace">용접부</text></svg>`}
+};
+let bookCurrent='목공';
+function bookRenderTabs(){document.getElementById('book-tabs').innerHTML=TRADES.map(t=>`<button class="tab${t===bookCurrent?' active':''}" onclick="bookSet('${t}')">${t}</button>`).join('')}
+function bookRender(){
+  const d=BOOK_DATA[bookCurrent];
+  document.getElementById('drawingArea').innerHTML=d.svg;
+  document.getElementById('drawCaption').textContent=d.drawCap;
+  document.getElementById('photoLabel').textContent=d.photoLbl;
+  document.getElementById('photoCaption').textContent=d.photoCap;
+  document.getElementById('pgLeft').textContent=d.pg[0];
+  document.getElementById('pgRight').textContent=d.pg[1];
+  document.getElementById('specText').innerHTML=d.spec.map(s=>`<div class="spec-clause"><span class="spec-no">${s.no}</span> ${s.t}<br><span style="color:#999;font-size:9px">${s.b}</span></div>`).join('');
+  document.getElementById('unofText').innerHTML=d.unoffic.map(s=>`<div class="unoffic-clause"><span class="unoffic-no">${s.no}</span> ${s.t}<br><span class="unoffic-body">${s.b}</span></div>`).join('');
+}
+function bookSet(t){bookCurrent=t;bookRenderTabs();bookRender();}
+bookRenderTabs();bookRender();
+
+/* ══ DS ══ */
+(function(){
+
+  const DAYS_KR = ['일','월','화','수','목','금','토'];
+  const now = new Date();
+  document.getElementById('ds-day-sub').textContent = `${now.getFullYear()} · ${DAYS_KR[now.getDay()]}요일`;
+  document.getElementById('ds-date-main').textContent = `${now.getMonth()+1}월 ${now.getDate()}일`;
+
+  // ── 스냅샷 데이터 (2026-05-18) ──
+  const DATA = {
+    '제주도청-물정책과-홍보영상.md': {
+      todos: [
+        '물정책과 지하수 관측통합운영실 (도청 본관) — 실시간 모니터링 화면, AI 수위 예측 대시보드',
+        '지하수 관측정 현장 (1~2개소 선정) — 관측정 외관·계측장비, 지하수위 측정 장면',
+        '제주삼다수 취수원 및 견학관 (조천읍) — 한라산 취수원 경관, 스마트팩토리, 전시관',
+        '제주도 수문지질 분석 시스템 현장 — GIS 기반 관측망 화면, 수위 이상 탐지 장면',
+        'B-roll: 제주 해안가 용천수 현장',
+        'B-roll: 강우 집수 장면 (시즌 맞춰 별도 계획)',
+        '편집', '납품',
+        '위미리 중규모 빗물이용시설 (서귀포시 남원읍) — 비닐하우스 168개소 집수설비',
+        '서부하수처리장 재이용 시설 / 판포하수처리장 (한경면 판포리)',
+        '하수처리수 재이용 시설 (도내 8개소 중 선정)',
+        '중수도 시설 대표 건물 (공공시설 1~2개소)',
+        '빗물저금통 시설 (이화요양원·무지개마을·송죽원 중 선정)',
+        '한국가스공사 제주기지 응축수 대체수자원 — 섭외 후 확인',
+        '관측정 현장 추천 및 출입 협조',
+        '하수처리장 시설 내부 촬영 허가',
+        '중수도 시설 추천 (접근 가능 공공시설 1~2개소)',
+        '위미리 빗물시설 관계자 섭외 협조',
+        '물정책과 자체 보유 시설 목록 공유'
+      ],
+      done: 2, meta: { deadline: '2026-06-26' },
+      budget: { amount: 15000000, vatSep: false, status: 'pending', deduction: { label: '언진 수수료', amount: 90000 } },
+      highlights: []
+    },
+    '호끌락-문화학교.md': {
+      todos: [
+        '2주차 준비 — 다음 주 수업 콘텐츠 확정 및 업로드 동의·안내',
+        '2주차 — 5/28', '3주차 — 6/4', '4주차 — 6/11',
+        '5주차 — 6/18', '6주차 — 6/25', '7주차 — 7/2', '8주차 — 7/9',
+        '수지쌤 인터뷰 편집 후 업로드',
+        '문봉순선생님 해설 영상 편집 후 업로드',
+        '자체 채널 + 과정 기록 콘텐츠 업로드'
+      ],
+      done: 1, meta: { deadline: '2026-07-09' },
+      budget: { amount: 1000000, vatSep: false, status: 'pending' },
+      highlights: ['2주차 준비 — 다음 주 수업 콘텐츠 확정 및 업로드 동의·안내']
+    },
+    '잇수다-잡지-제작.md': {
+      todos: [
+        '용천수 잠복취재', '제주도청 과장님 인터뷰',
+        '취재 일정 조율 (3건)', '촬영 (3건)', '글 작성 (4건)',
+        '레이아웃', '교정', '인쇄 납품'
+      ],
+      done: 3, meta: { deadline: '2026-06-18' },
+      budget: { amount: 9000000, vatSep: false, status: 'pending', deduction: { label: '인쇄비(예상)', amount: 3000000 } },
+      highlights: []
+    },
+    '외주-과정-실시간콘텐츠.md': {
+      todos: [
+        '채널/플랫폼 결정', '용천수 사전답사', '종달리 잠수굿',
+        '문봉순 선생님 해설', '제주지하수연구센터 인터뷰', '수지쌤 인터뷰',
+        '물정책과 촬영 현장 비하인드', '잇수다 취재 현장', '호끌락 문화학교 현장'
+      ],
+      done: 0, meta: {}, budget: null, highlights: []
+    },
+    '스트롤-독립잡지-교토편.md': {
+      todos: ['안과 취재', '전체 목차 구성', '뉴스레터 분할 단위 결정 (몇 화?)', '1화 초안'],
+      done: 0, meta: {}, budget: null, highlights: []
+    },
+    '시스템 구축.md': {
+      todos: [
+        'Shortcuts 단축어 3개 설치', 'Obsidian 볼트 + 플러그인 세팅',
+        'Claude 연동 확인', '1주일 사용 후 루틴 체크',
+        'Obsidian 플러그인 5개 설치', 'Focus Mode 설정', '대시보드 동작 확인'
+      ],
+      done: 0, meta: {}, budget: null, highlights: []
+    },
+    '하례초-홍보뮤직비디오.md': {
+      todos: [
+        '컨셉·기획안 확정 — 5/23',
+        '스토리보드 완성 — 5/26',
+        '촬영 — 5/28~30',
+        '편집 1차 — 6/5',
+        '클라이언트 검수 및 피드백 — 6/10',
+        '최종 수정 — 6/17',
+        '납품 — 6/20',
+        '음악 선정 / 의뢰 확인',
+        '출연자 섭외 및 동의서',
+        '촬영 장소 사전답사'
+      ],
+      done: 1, meta: { deadline: '2026-06-20' },
+      budget: { amount: 2000000, vatSep: true, status: 'pending' },
+      highlights: ['컨셉·기획안 확정 — 5/23']
+    }
+  };
+
+  const PROJECTS = [
+    { file: '하례초-홍보뮤직비디오.md',     name: '하례초 홍보 뮤직비디오',    cat: '외주', memo: '뮤직비디오 1편' },
+    { file: '제주도청-물정책과-홍보영상.md', name: '제주도청 물정책과 홍보영상', cat: '외주', memo: '홍보영상 2편' },
+    { file: '호끌락-문화학교.md',           name: '호끌락 문화학교',           cat: '외주', memo: '8주 (5/14~7/9)' },
+    { file: '잇수다-잡지-제작.md',          name: '잇수다 잡지 제작',          cat: '외주', memo: '취재 4~5건' },
+    { file: '외주-과정-실시간콘텐츠.md',    name: '외주 과정 실시간 콘텐츠',   cat: '자체', memo: 'SNS 병행' },
+    { file: '스트롤-독립잡지-교토편.md',    name: '스트롤 독립잡지',           cat: '자체', memo: '뉴스레터 분할' },
+    { file: '시스템 구축.md',               name: '개인 운영 시스템 구축',     cat: '시스템', memo: '' }
+  ];
+
+  const SCHEDULE = [
+    { date: '5/14', day: '목', dotCls: 'done',
+      events: [{ title: '호끌락 문화학교 — 1주차', time: '10:50–13:00', desc: '조별 공간 촬영 완료', clients: ['호끌락'], isDone: true }] },
+    { date: '5/18', day: '월', dotCls: 'upcoming', thisWeek: true,
+      events: [{ title: '하례초 킥오프 미팅', time: '14:00', clients: ['하례초'], isMeeting: true }] },
+    { date: '5/21', day: '목', thisWeek: true,
+      events: [{ title: '아르코건축예술랩 줌미팅', time: '17:00', clients: ['아르코'], isMeeting: true }] },
+    { date: '5/23', day: '토', dotCls: '', thisWeek: true,
+      events: [{ title: '하례초 — 컨셉·기획안 확정', time: '', clients: ['하례초'], prep: '기획안 제출' }] },
+    { date: '5/26', day: '화',
+      events: [{ title: '하례초 — 스토리보드 완성', time: '', clients: ['하례초'] }] },
+    { date: '5/28', day: '목',
+      events: [
+        { title: '호끌락 문화학교 — 2주차', time: '미정', clients: ['호끌락'], prep: '콘텐츠 확정·동의 필요' },
+        { title: '하례초 — 촬영', time: '미정', clients: ['하례초'] }
+      ] },
+    { date: '6/4',  day: '목',
+      events: [{ title: '호끌락 문화학교 — 3주차', time: '미정', clients: ['호끌락'] }] },
+    { date: '6/5',  day: '금',
+      events: [{ title: '하례초 — 편집 1차', time: '', clients: ['하례초'] }] },
+    { date: '6/10', day: '수',
+      events: [{ title: '하례초 — 클라이언트 검수', time: '', clients: ['하례초'], isMeeting: true }] },
+    { date: '6/17', day: '수',
+      events: [{ title: '하례초 — 최종 수정', time: '', clients: ['하례초'] }] },
+    { date: '6/20', day: '토',
+      events: [{ title: '하례초 — 납품 마감', time: '', clients: ['하례초'], prep: '최종 납품' }] },
+    { date: 'TBD',  day: '',
+      events: [{ title: '잇수다 남은 촬영 2건', time: '미정', desc: '용천수 잠복취재 · 제주도청 과장님 인터뷰', clients: ['잇수다'], isTbd: true }] }
+  ];
+
+  function daysUntil(s) {
+    if (!s) return null;
+    try { return Math.ceil((new Date(s+'T00:00:00') - new Date(new Date().toDateString())) / 86400000); }
+    catch(e) { return null; }
+  }
+  function ddayLabel(n) { return n===null?null:n<0?`D+${Math.abs(n)}`:n===0?'D-DAY':`D-${n}`; }
+  function ddayClass(n)  { return n===null?'dday-ok':n<=3?'dday-urgent':n<=10?'dday-warn':'dday-ok'; }
+  function badgeClass(c) { return c==='외주'?'badge-out':c==='자체'?'badge-self':'badge-sys'; }
+
+  function fmtBudget(b) {
+    if (!b) return null;
+    const gross = b.amount / 10000;
+    let label = gross.toLocaleString() + '만원';
+    if (b.vatSep) label += ' (VAT별도)';
+    if (b.deduction) {
+      const ded = b.deduction.amount / 10000;
+      const net = gross - ded;
+      label += ` · 실수령 ${net.toLocaleString()}만원 (${b.deduction.label} -${ded}만)`;
+    }
+    return label;
+  }
+
+  function riskLevel(p) {
+    const d = DATA[p.file]||{};
+    const deadline = d.meta&&d.meta.deadline;
+    const dLeft = deadline ? daysUntil(deadline) : null;
+    const total = (d.todos&&d.todos.length||0) + (d.done||0);
+    const pct   = total > 0 ? (d.done||0)/total : 0;
+    if (dLeft !== null && dLeft < 0) return 'overdue';
+    if (dLeft !== null && dLeft <= 14 && pct < 0.5) return 'critical';
+    if (dLeft !== null && dLeft <= 28 && pct < 0.35) return 'warning';
+    if (!deadline && (d.todos&&d.todos.length||0) > 12) return 'watch';
+    return dLeft !== null ? 'ok' : 'none';
+  }
+  function riskReason(p) {
+    const d = DATA[p.file]||{};
+    const deadline = d.meta&&d.meta.deadline;
+    const dLeft = deadline ? daysUntil(deadline) : null;
+    const total = (d.todos&&d.todos.length||0) + (d.done||0);
+    const pct   = total > 0 ? Math.round((d.done||0)/total*100) : 0;
+    if (!deadline) return '마감 미설정 · 할 일 ' + (d.todos&&d.todos.length||0) + '개';
+    return `D-${dLeft} · 완료 ${pct}%`;
+  }
+
+  function renderWeekPulse() {
+    const thisWeekEvents = SCHEDULE.filter(s => s.thisWeek);
+    const evCount = thisWeekEvents.reduce((acc, s) => acc + s.events.length, 0);
+    const critical = PROJECTS.filter(p => riskLevel(p)==='critical'||riskLevel(p)==='overdue');
+    const warning  = PROJECTS.filter(p => riskLevel(p)==='warning');
+    const deadlines = PROJECTS.filter(p => {
+      const d = DATA[p.file]||{};
+      const dl = d.meta&&d.meta.deadline ? daysUntil(d.meta.deadline) : null;
+      return dl !== null && dl >= 0 && dl <= 30;
+    });
+    const nearest = deadlines.sort((a,b)=>{
+      return daysUntil((DATA[a.file]?.meta?.deadline)||'9999-12-31') - daysUntil((DATA[b.file]?.meta?.deadline)||'9999-12-31');
+    })[0];
+    const nearestDays = nearest ? daysUntil(DATA[nearest.file]?.meta?.deadline) : null;
+
+    // 총 예산 합산
+    const totalBudget = Object.values(DATA)
+      .filter(d => d.budget)
+      .reduce((sum, d) => sum + d.budget.amount, 0);
+
+    document.getElementById('ds-week-pulse-wrap').innerHTML = `
+      <div class="section-label">이번 주 현황</div>
+      <div class="week-pulse" style="margin-bottom:22px;">
+        <div class="pulse-stat">
+          <div class="pulse-val ${evCount>=3?'amber':''}">${evCount}</div>
+          <div class="pulse-lbl">이번 주 일정</div>
+        </div>
+        <div class="pulse-divider"></div>
+        <div class="pulse-stat">
+          <div class="pulse-val ${critical.length>0?'red':warning.length>0?'amber':'green'}">${critical.length+warning.length}</div>
+          <div class="pulse-lbl">주의 프로젝트</div>
+        </div>
+        <div class="pulse-divider"></div>
+        <div class="pulse-stat">
+          <div class="pulse-val ${nearestDays!==null&&nearestDays<=14?'amber':''}">${nearestDays!==null?'D-'+nearestDays:'—'}</div>
+          <div class="pulse-lbl">가장 가까운 마감</div>
+        </div>
+        <div class="pulse-divider"></div>
+        <div class="pulse-stat">
+          <div class="pulse-val" style="font-size:16px;padding-top:2px;">${(totalBudget/10000).toLocaleString()}만</div>
+          <div class="pulse-lbl">진행 중 총 예산</div>
+        </div>
+      </div>`;
+  }
+
+  function renderRisk() {
+    const critical = PROJECTS.filter(p => { const r=riskLevel(p); return r==='critical'||r==='overdue'; });
+    const warning  = PROJECTS.filter(p => riskLevel(p)==='warning');
+    const watch    = PROJECTS.filter(p => riskLevel(p)==='watch');
+    let html = '';
+    if (critical.length) {
+      html += `<div class="risk-banner critical">
+        <div class="risk-label">🔴 즉시 점검 필요</div>
+        ${critical.map(p=>`<div class="risk-row">
+          <div><span class="risk-name">${p.name}</span><span class="risk-reason" style="margin-left:8px;">${riskReason(p)}</span></div>
+          <span class="risk-tag tag-critical">위험</span>
+        </div>`).join('')}
+      </div>`;
+    }
+    if (warning.length) {
+      html += `<div class="risk-banner warning">
+        <div class="risk-label">🟡 주의 모니터링</div>
+        ${warning.map(p=>`<div class="risk-row">
+          <div><span class="risk-name">${p.name}</span><span class="risk-reason" style="margin-left:8px;">${riskReason(p)}</span></div>
+          <span class="risk-tag tag-warning">주의</span>
+        </div>`).join('')}
+      </div>`;
+    }
+    if (watch.length) {
+      html += `<div class="risk-banner" style="background:#f9f9f9;border:1px solid #e8e8e8;">
+        <div class="risk-label" style="color:#666;">⚪ 마감 확인 필요</div>
+        ${watch.map(p=>`<div class="risk-row">
+          <div><span class="risk-name">${p.name}</span><span class="risk-reason" style="margin-left:8px;">${riskReason(p)}</span></div>
+          <span class="risk-tag tag-watch">일정 미정</span>
+        </div>`).join('')}
+      </div>`;
+    }
+    document.getElementById('ds-risk-wrap').innerHTML = html ? `<div style="margin-bottom:22px;">${html}</div>` : '';
+  }
+
+  function renderUrgency() {
+    const urgent = PROJECTS.filter(p => {
+      const m = DATA[p.file]?.meta||{}, date = m.deadline||m.start;
+      if (!date) return false;
+      const d = daysUntil(date); return d!==null && d<=14;
+    });
+    if (!urgent.length) { document.getElementById('ds-urgency-wrap').innerHTML=''; return; }
+    const rows = urgent.map(p => {
+      const m=DATA[p.file]?.meta||{}, date=m.deadline||m.start, d=daysUntil(date);
+      const rem=(DATA[p.file]?.todos||[]).length;
+      return `<div class="urgency-row"><div class="urgency-name">${p.name}</div>
+        <div class="urgency-right">${rem>0?`<span class="remaining-txt">할 일 ${rem}개</span>`:''}
+        <span class="dday ${ddayClass(d)}">${ddayLabel(d)}</span></div></div>`;
+    }).join('');
+    document.getElementById('ds-urgency-wrap').innerHTML =
+      `<div class="urgency-card"><div class="urgency-label">⏰ D-14 이내 주의</div>${rows}</div>`;
+  }
+
+  function renderSchedule() {
+    const rows = SCHEDULE.map((day, i) => {
+      const isLast = i === SCHEDULE.length - 1;
+      const dotCls = day.dotCls || (day.thisWeek ? 'thisweek' : '');
+      const eventsHTML = day.events.map(ev => {
+        const clientTags = (ev.clients||[]).map(c=>`<span class="ttag ttag-client">${c}</span>`).join('');
+        const typeTag = ev.isDone    ? `<span class="ttag ttag-done">✓ 완료</span>`
+                      : ev.isTbd    ? `<span class="ttag ttag-tbd">일정 미정</span>`
+                      : ev.isMeeting? `<span class="ttag ttag-meeting">미팅</span>`
+                      : day.thisWeek? `<span class="ttag ttag-thisweek">이번 주</span>`
+                      : `<span class="ttag ttag-shoot">촬영·작업</span>`;
+        const prepTag = ev.prep ? `<span class="ttag ttag-prep">⚡ ${ev.prep}</span>` : '';
+        const evCls = ev.isDone ? ' done-ev' : day.thisWeek ? ' thisweek-ev' : '';
+        return `<div class="timeline-event${evCls}">
+          <div class="timeline-event-top">${ev.time?`<span class="timeline-time">${ev.time}</span>`:''}<span class="timeline-title">${ev.title}</span></div>
+          ${ev.desc?`<div class="timeline-desc">${ev.desc}</div>`:''}
+          <div class="timeline-tags">${typeTag}${clientTags}${prepTag}</div></div>`;
+      }).join('');
+      return `<div class="timeline-day">
+        <div class="timeline-date"><div class="tdate">${day.date}</div>${day.day?`<div class="tday">${day.day}요일</div>`:''}</div>
+        <div class="timeline-dot-col"><div class="timeline-dot${dotCls?' '+dotCls:''}"></div>${!isLast?'<div class="timeline-line"></div>':''}</div>
+        <div class="timeline-body">${eventsHTML}</div></div>`;
+    }).join('');
+    return `<div class="section-label">촬영 · 미팅 · 마일스톤</div><div class="schedule-section" style="margin-bottom:24px;">${rows}</div>`;
+  }
+
+  function renderCard(p) {
+    const d = DATA[p.file]||{ todos:[], done:0, meta:{}, highlights:[], budget:null };
+    const tasks=d.todos||[], doneN=d.done||0, total=tasks.length+doneN;
+    const pct = total>0 ? Math.round((doneN/total)*100) : 0;
+    const date=d.meta&&d.meta.deadline, dd=daysUntil(date);
+    const hi = new Set(d.highlights||[]);
+    const rl = riskLevel(p);
+    const riskDotCls = rl==='critical'||rl==='overdue'?'critical':rl==='warning'?'warning':rl==='watch'?'watch':rl==='ok'?'ok':'none';
+    const fillCls = rl==='critical'||rl==='overdue'?'fill-critical':rl==='warning'?'fill-warning':'';
+    const cardCls = rl==='critical'||rl==='overdue'?'card-risk-critical':rl==='warning'?'card-risk-warning':'';
+    const taskHTML = tasks.length>0
+      ? `<ul class="task-list">
+          ${tasks.slice(0,5).map(t=>`<li class="task-item${hi.has(t)?' highlight':''}"><div class="task-box"></div><span>${t}</span></li>`).join('')}
+          ${tasks.length>5?`<li class="more-tasks">+ ${tasks.length-5}개 더</li>`:''}
+        </ul>`
+      : `<div class="no-tasks">✓ 현재 할 일 없음</div>`;
+    const fp=[];
+    if (p.memo) fp.push(p.memo);
+    if (date&&dd!==null) fp.push(`마감 ${date} · ${ddayLabel(dd)}`);
+    const budgetStr = fmtBudget(d.budget);
+    const budgetHTML = budgetStr
+      ? `<span class="budget-badge budget-${d.budget.status}" title="${budgetStr}">${(d.budget.amount/10000).toLocaleString()}만원${d.budget.vatSep?' +VAT':''}</span>`
+      : `<span class="budget-badge budget-none">예산 미입력</span>`;
+    return `<div class="card ${cardCls}">
+      <div class="card-top">
+        <div class="card-name">${p.name}</div>
+        <div class="card-badges">
+          <div class="risk-dot ${riskDotCls}" title="${rl}"></div>
+          <span class="badge ${badgeClass(p.cat)}">${p.cat}</span>
+        </div>
+      </div>
+      <div class="prog-track"><div class="prog-fill ${fillCls}" style="width:${pct}%"></div></div>
+      <div class="prog-text">${doneN}/${total} 완료 · ${pct}%</div>
+      ${taskHTML}
+      <div class="card-footer">
+        <span>${fp.join(' · ')}</span>
+        ${budgetHTML}
+      </div>
+    </div>`;
+  }
+
+  function render() {
+    renderWeekPulse();
+    renderRisk();
+    renderUrgency();
+    const section = (label, projs, wide) => `
+      <div class="section-label">${label}</div>
+      <div class="grid${wide?' wide':''}">
+        ${projs.map(p=>renderCard(p)).join('')}
+      </div>`;
+    document.getElementById('ds-main-wrap').innerHTML =
+      renderSchedule() +
+      section('외주 프로젝트', PROJECTS.filter(p=>p.cat==='외주'), false) +
+      section('자체 프로젝트', PROJECTS.filter(p=>p.cat==='자체'), false) +
+      section('시스템 구축',   PROJECTS.filter(p=>p.cat==='시스템'), true);
+  }
+
+  render();
+
+})();
+/* ══ DB ══ */
+
+(function() {
+  // Current time in KST
+  function getNowKST() {
+    const now = new Date();
+    // offset
+    const kstOffset = 9 * 60;
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + kstOffset * 60000);
+  }
+
+  function toMinutes(h, m) { return h * 60 + m; }
+
+  function updateDayProgress() {
+    const now = getNowKST();
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const nowMin = toMinutes(h, m);
+    const dayStart = toMinutes(6, 0);
+    const dayEnd = toMinutes(21, 0);
+    let pct = Math.max(0, Math.min(100, Math.round((nowMin - dayStart) / (dayEnd - dayStart) * 100)));
+    document.getElementById('db-prog-fill').style.width = pct + '%';
+    document.getElementById('db-prog-pct').textContent = pct + '%';
+  }
+
+  function updateRoutineStatus() {
+    const now = getNowKST();
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const nowMin = toMinutes(h, m);
+
+    const blocks = [
+      { id: 'db-s1', start: toMinutes(6,30),  end: toMinutes(9,0)  },
+      { id: 'db-s2', start: toMinutes(10,0),  end: toMinutes(12,0) },
+      { id: 'db-s3', start: toMinutes(14,0),  end: toMinutes(17,0) },
+      { id: 'db-s4', start: toMinutes(19,0),  end: toMinutes(21,0) },
+    ];
+
+    blocks.forEach(b => {
+      const el = document.getElementById(b.id);
+      if (nowMin > b.end) {
+        el.textContent = '완료';
+        el.className = 'ri-status status-done';
+      } else if (nowMin >= b.start) {
+        el.textContent = '진행 중';
+        el.className = 'ri-status status-now';
+      } else {
+        el.textContent = '예정';
+        el.className = 'ri-status status-next';
+      }
+    });
+  }
+
+  updateDayProgress();
+  updateRoutineStatus();
+  setInterval(() => {
+    updateDayProgress();
+    updateRoutineStatus();
+  }, 60000);
+})();
+
+</script>
+</body>
+</html>
