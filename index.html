@@ -262,23 +262,22 @@ body{font-family:var(--mono);font-size:13px;background:var(--bg);color:var(--tex
 </div>
 
 <div class="panel" id="panel-trip">
-  <div id="trip-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px"></div>
-  <div style="font-size:10px;color:var(--text3);letter-spacing:.06em;margin-bottom:8px">전체 커버리지 요약</div>
-  <div id="trip-sum" style="display:grid;grid-template-columns:auto repeat(3,1fr) auto;gap:4px;align-items:center;margin-bottom:10px"></div>
-  <div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden">
-    <div id="trip-prog-fill" style="height:100%;border-radius:2px;background:var(--amber);transition:width .3s;width:0%"></div>
-  </div>
-  <div style="display:flex;justify-content:space-between;margin-top:3px">
-    <span style="font-size:10px;color:var(--text3)">커버된 항목 / 전체 15개 (5공종 × 3레이어)</span>
-    <span id="trip-prog-val" style="font-size:11px;font-weight:700;color:var(--amber)">0 / 15</span>
+  <div class="trips" id="trip-cards"></div>
+  <div class="divider"></div>
+  <div class="sum-title">전체 커버리지 요약</div>
+  <div class="sum-grid" id="trip-sum"></div>
+  <div class="prog-bar"><div class="prog-fill" id="trip-prog-fill" style="width:0%"></div></div>
+  <div class="prog-row">
+    <span class="prog-label">커버된 항목 / 전체 15개 (5공종 × 3레이어)</span>
+    <span class="prog-val" id="trip-prog-val">0 / 15</span>
   </div>
   <div id="trip-uncov"></div>
 </div>
 
 <div class="panel" id="panel-pod">
-  <div id="pod-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px"></div>
-  <div id="pod-meta" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:11px"></div>
-  <div class="cam-box" style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+  <div class="tabs" id="pod-tabs"></div>
+  <div class="meta-row" id="pod-meta"></div>
+  <div class="cam-box">
     <div class="cam-diagram">
       <div class="cam-f">얼굴</div>
       <div class="cam-sep"></div>
@@ -287,58 +286,56 @@ body{font-family:var(--mono);font-size:13px;background:var(--bg);color:var(--tex
     <span class="cam-note">1/3 얼굴 + 2/3 손·작업 분할 프레임 — 촬영 전 구도 확인</span>
   </div>
   <div id="pod-secs"></div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)">
-    <div style="flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden">
-      <div id="pod-prog-fill" style="height:100%;border-radius:2px;background:var(--success);transition:width .3s;width:0%"></div>
-    </div>
-    <span id="pod-prog-txt" style="font-size:11px;color:var(--text3);white-space:nowrap">0 / 0 완료</span>
+  <div class="prog-area">
+    <div class="prog-bar"><div class="prog-fill" id="pod-prog-fill" style="width:0%"></div></div>
+    <span class="prog-txt" id="pod-prog-txt">0 / 0 완료</span>
   </div>
 </div>
 
 <div class="panel" id="panel-book">
-  <div id="book-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px"></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;margin-bottom:5px;border-bottom:1px solid var(--border2);padding-bottom:3px">
-    <span style="font-size:9px;letter-spacing:.09em;color:var(--text3);text-align:center">공식 도면</span>
-    <span style="font-size:9px;letter-spacing:.09em;color:var(--text3);text-align:center">공식 시방서</span>
-    <span style="font-size:9px;letter-spacing:.09em;color:var(--text3);text-align:center">현장 사진</span>
-    <span style="font-size:9px;letter-spacing:.09em;color:var(--amber);font-weight:700;text-align:center">비공식 시방서</span>
+  <div class="ctrl" id="book-tabs"></div>
+  <div class="label-strip">
+    <span class="strip-lbl">공식 도면</span>
+    <span class="strip-lbl">공식 시방서</span>
+    <span class="strip-lbl">현장 사진</span>
+    <span class="strip-lbl hl">비공식 시방서</span>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border2);border-radius:7px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)">
-    <div style="padding:14px 12px;position:relative;min-height:340px;border-right:2px solid rgba(0,0,0,.12)">
-      <div style="display:grid;grid-template-columns:1fr 1fr;height:100%">
-        <div style="padding:0 7px;border-right:1px solid var(--border)">
-          <div style="font-size:8px;letter-spacing:.1em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">도면</div>
-          <div id="book-draw" style="background:var(--bg2);border:1px solid var(--border);border-radius:3px;aspect-ratio:1/1.05;display:flex;align-items:center;justify-content:center;margin-bottom:5px;overflow:hidden"></div>
-          <div id="book-draw-cap" style="font-size:8px;color:var(--text3);text-align:center;margin-bottom:5px"></div>
+  <div class="spread">
+    <div class="page page-l">
+      <div class="page-inner">
+        <div class="col">
+          <div class="col-head">도면</div>
+          <div class="drawing-area" id="book-draw"></div>
+          <div class="caption" id="book-draw-cap"></div>
         </div>
-        <div style="padding:0 7px">
-          <div style="font-size:8px;letter-spacing:.1em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">공식 시방서</div>
-          <div id="book-spec" style="font-size:9px;line-height:1.7;color:var(--text2)"></div>
+        <div class="col">
+          <div class="col-head">공식 시방서</div>
+          <div class="spec-text" id="book-spec"></div>
         </div>
       </div>
-      <span id="book-pg-l" style="position:absolute;bottom:7px;left:12px;font-size:8px;color:var(--text3)"></span>
+      <span class="pg-num pg-l" id="book-pg-l"></span>
     </div>
-    <div style="padding:14px 12px;position:relative;min-height:340px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;height:100%">
-        <div style="padding:0 7px;border-right:1px solid var(--border)">
-          <div style="font-size:8px;letter-spacing:.1em;color:var(--text3);border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">현장 사진</div>
-          <div style="background:var(--bg2);border:1px dashed var(--border2);border-radius:3px;aspect-ratio:1/1.05;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:5px;gap:3px">
-            <span style="font-size:20px">📷</span>
-            <span id="book-photo-lbl" style="font-size:8px;color:var(--text3)"></span>
+    <div class="page">
+      <div class="page-inner">
+        <div class="col">
+          <div class="col-head">현장 사진</div>
+          <div class="photo-area">
+            <span style="font-size:22px">📷</span>
+            <span class="photo-lbl" id="book-photo-lbl"></span>
           </div>
-          <div id="book-photo-cap" style="font-size:8px;color:var(--text3);text-align:center;margin-bottom:5px"></div>
+          <div class="caption" id="book-photo-cap"></div>
         </div>
-        <div style="padding:0 7px">
-          <div style="font-size:8px;letter-spacing:.1em;color:var(--amber);font-weight:700;border-bottom:1px solid var(--border);padding-bottom:3px;margin-bottom:7px;text-transform:uppercase">비공식 시방서</div>
-          <div id="book-unof" style="font-size:9px;line-height:1.8;color:var(--text)"></div>
+        <div class="col">
+          <div class="col-head hl">비공식 시방서</div>
+          <div class="unoffic" id="book-unof"></div>
         </div>
       </div>
-      <span id="book-pg-r" style="position:absolute;bottom:7px;right:12px;font-size:8px;color:var(--text3)"></span>
+      <span class="pg-num pg-r" id="book-pg-r"></span>
     </div>
   </div>
-  <div style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3)"><div style="width:7px;height:7px;border-radius:50%;background:#666"></div>공식 언어 — 수치·규범·기준</div>
-    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3)"><div style="width:7px;height:7px;border-radius:50%;background:#BA7517"></div>비공식 언어 — 감각·구전·신체</div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#666"></div>공식 언어 — 수치·규범·기준</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#BA7517"></div>비공식 언어 — 감각·구전·신체</div>
   </div>
 </div>
 
