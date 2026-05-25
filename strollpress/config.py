@@ -139,8 +139,10 @@ def build_config(
         print("[ERROR] GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
         sys.exit(1)
     if not anthropic_key:
-        print("[ERROR] ANTHROPIC_API_KEY environment variable is not set.", file=sys.stderr)
-        sys.exit(1)
+        print(
+            "[WARNING] ANTHROPIC_API_KEY not set — steps 04, 06, 07, 09 (titles), 10 (summary) will be skipped.",
+            file=sys.stderr,
+        )
 
     # Resolve input directory
     if input_path:

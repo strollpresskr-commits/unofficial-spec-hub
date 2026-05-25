@@ -105,6 +105,10 @@ def run(config: PipelineConfig) -> list[dict]:
     if config.force:
         clear(config.output_dir, STEP_NAME)
 
+    if not config.anthropic_api_key:
+        logger.warning("[step 04] ANTHROPIC_API_KEY not set — skipping translation")
+        mark_done(config.output_dir, STEP_NAME)
+        return []
     client = anthropic.Anthropic(api_key=config.anthropic_api_key)
     glossary_note = _load_glossary(config)
     target_langs = [lang for lang in config.languages if lang != "ko"]

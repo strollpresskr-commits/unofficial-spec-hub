@@ -237,7 +237,7 @@ def run(config: PipelineConfig) -> list[Path]:
             )
 
         # Generate title overlays for top 3
-        if not config.dry_run:
+        if not config.dry_run and config.anthropic_api_key:
             client = anthropic.Anthropic(api_key=config.anthropic_api_key)
             chapters_path = config.output_dir / "chapters.json"
             chapters = []

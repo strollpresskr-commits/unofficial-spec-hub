@@ -186,16 +186,14 @@ def run(config: PipelineConfig) -> Path:
         mark_done(config.output_dir, STEP_NAME)
         return config.output_dir
 
-    client = anthropic.Anthropic(api_key=config.anthropic_api_key)
-
-    # Generate project summary
-    summary = ""
-    if full_transcript_ko.strip():
+    # Generate project summary (requires Claude — skip gracefully if no key)
+    summary = theme or "Jeju documentary archive project."
+    if full_transcript_ko.strip() and config.anthropic_api_key:
         try:
+            client = anthropic.Anthropic(api_key=config.anthropic_api_key)
             summary = _generate_summary(full_transcript_ko, project_meta, chapters, client, config)
         except Exception as exc:
             logger.warning("[step 10] Summary generation failed: %s", exc)
-            summary = theme or "Jeju documentary archive project."
 
     # ---- Build Obsidian Markdown ----
     lines = []

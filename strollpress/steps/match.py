@@ -221,6 +221,10 @@ def run(config: PipelineConfig) -> list[dict]:
     if config.force:
         clear(config.output_dir, STEP_NAME)
 
+    if not config.anthropic_api_key:
+        logger.warning("[step 06] ANTHROPIC_API_KEY not set — skipping b-roll matching")
+        mark_done(config.output_dir, STEP_NAME)
+        return []
     model = OPUS_MODEL if config.use_opus_matcher else SONNET_MODEL
     client = anthropic.Anthropic(api_key=config.anthropic_api_key)
 

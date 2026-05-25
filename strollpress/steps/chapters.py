@@ -134,6 +134,10 @@ def run(config: PipelineConfig) -> list[dict]:
         mark_done(config.output_dir, STEP_NAME)
         return []
 
+    if not config.anthropic_api_key:
+        logger.warning("[step 07] ANTHROPIC_API_KEY not set — skipping chapter detection")
+        mark_done(config.output_dir, STEP_NAME)
+        return []
     client = anthropic.Anthropic(api_key=config.anthropic_api_key)
 
     try:
