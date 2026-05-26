@@ -1,0 +1,28 @@
+# Strollpress project configuration — Jeju documentary example
+# Place this file in your input folder as project.yaml
+
+slug: jeju_spring_2025
+title: "봄의 제주 — Jeju in Spring"
+theme: >
+  Spring rituals and water memory along the Seogwipo coastline.
+  Follows three haenyeo divers and one stone-wall craftsman across a single tidal week.
+target_length_min: 15
+audience: "local Jeju community + international archive viewers, festival circuit"
+
+# Optional: override default paths
+# paths:
+#   input: "/Volumes/T7 Shield/footage/jeju_spring_2025"
+#   output: "/Volumes/T7 Shield/rough_cuts/jeju_spring_2025_20250601"
+#   cache: "/Volumes/T7 Shield/.strollpress_cache"
+
+# Pipeline behaviour
+pipeline:
+  use_opus_matcher: true
+  languages: [ko, en, ja]
+  rename_symlink: false   # true = symlink renamed files instead of moving
+
+# Contacts / credits (used in archive note frontmatter)
+credits:
+  director: Strollpress
+  location: Seogwipo, Jeju Island, Korea
+  camera: Sony FX3 / DJI Mini 4 Pro
